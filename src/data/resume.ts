@@ -103,6 +103,14 @@ export const skillGroups: SkillGroup[] = [
 
 export const experience: ExperienceItem[] = [
   {
+    role: 'Technical Lead',
+    company: 'Jejakin',
+    period: '01/2026 — Present',
+    highlights: [
+      'Leading the engineering team to build technology for environmental and sustainability initiatives.',
+    ],
+  },
+  {
     role: 'Tech Lead Engineer',
     company: 'PT. Data Integrasi Semesta',
     period: '02/2020 — Present',
