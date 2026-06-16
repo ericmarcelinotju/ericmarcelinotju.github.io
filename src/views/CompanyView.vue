@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { companyLogo, findCompany, profile } from '../data/resume'
+import { companyLogo, companyWebsite, findCompany, profile } from '../data/resume'
 import CompanyLogo from '../components/CompanyLogo.vue'
 
 const route = useRoute()
 const company = computed(() => findCompany(String(route.params.slug)))
+const website = computed(() =>
+  company.value ? companyWebsite(company.value.slug) : undefined,
+)
 
 watchEffect(() => {
   document.title = company.value
@@ -25,7 +28,7 @@ watchEffect(() => {
         <CompanyLogo
           :name="company.name"
           :logo="companyLogo(company.slug)"
-          :size="64"
+          :size="96"
         />
         <div>
           <h1 class="company__name">{{ company.name }}</h1>
@@ -34,14 +37,25 @@ watchEffect(() => {
             <span class="company__dot" v-if="company.location">·</span>
             <span>{{ company.period }}</span>
           </p>
+          <a
+            v-if="website"
+            class="company__website"
+            :href="website"
+            target="_blank"
+            rel="noopener"
+          >
+            Visit website
+            <span class="company__website-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       </header>
 
-      <section v-for="(role, i) in company.roles" :key="i" class="role">
+      <section v-for="(role, i) in company.roles" :key="i" class="role" v-reveal>
         <div class="role__head">
           <h2 class="role__title">{{ role.role }}</h2>
           <span class="role__period">{{ role.period }}</span>
         </div>
+        <p class="role__summary">{{ role.summary }}</p>
         <ul class="role__highlights">
           <li v-for="(point, j) in role.highlights" :key="j">{{ point }}</li>
         </ul>
@@ -100,6 +114,28 @@ watchEffect(() => {
   opacity: 0.6;
 }
 
+.company__website {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.company__website:hover {
+  color: var(--accent-light);
+}
+
+.company__website-arrow {
+  transition: transform 0.2s ease;
+}
+
+.company__website:hover .company__website-arrow {
+  transform: translate(2px, -2px);
+}
+
 .role {
   padding: 26px 0;
   border-bottom: 1px solid var(--border);
@@ -115,7 +151,13 @@ watchEffect(() => {
   align-items: baseline;
   justify-content: space-between;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+.role__summary {
+  color: var(--text);
+  font-size: 1.02rem;
+  margin-bottom: 16px;
 }
 
 .role__title {
@@ -124,7 +166,8 @@ watchEffect(() => {
 }
 
 .role__period {
-  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -142,10 +185,14 @@ watchEffect(() => {
 }
 
 .role__highlights li::before {
-  content: '▹';
+  content: '';
   position: absolute;
   left: 0;
-  color: var(--accent-light);
+  top: 0.65em;
+  width: 11px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
 }
 
 .company__notfound {

@@ -1,52 +1,28 @@
-// Centralized, typed profile content sourced from Eric Marcelino's resume.
+// Centralized profile content sourced from Eric Marcelino's resume.
+// Type declarations live in `resume.types.ts`.
 
-export interface Profile {
-  name: string
-  title: string
-  tagline: string
-  location: string
-  email: string
-  phone: string
-  links: {
-    github: string
-    linkedin: string
-  }
-}
+import type {
+  AchievementItem,
+  Company,
+  CompanyRole,
+  EducationItem,
+  ExperienceItem,
+  Language,
+  ProjectItem,
+  Profile,
+  SkillGroup,
+} from './resume.types'
 
-export interface SkillGroup {
-  category: string
-  items: string[]
-}
-
-export interface ExperienceItem {
-  role: string
-  company: string
-  location?: string
-  period: string
-  highlights: string[]
-}
-
-export interface AchievementItem {
-  name: string
-  description: string
-}
-
-export interface ProjectItem {
-  name: string
-  description: string
-  url?: string
-}
-
-export interface EducationItem {
-  degree: string
-  school: string
-  period: string
-  gpa?: string
-}
-
-export interface Language {
-  name: string
-  level: string
+export type {
+  AchievementItem,
+  Company,
+  CompanyRole,
+  EducationItem,
+  ExperienceItem,
+  Language,
+  ProjectItem,
+  Profile,
+  SkillGroup,
 }
 
 export const profile: Profile = {
@@ -56,7 +32,6 @@ export const profile: Profile = {
     'Passionate and disciplined Software Engineer with 6+ years of experience building robust solutions across web, mobile, desktop, and IoT. Skilled in Go, Vue.js, Flutter, and DevOps practices — a fast learner and proactive team contributor.',
   location: 'Indonesia',
   email: 'ericmarcelinotju@gmail.com',
-  phone: '+62 813 8273 4943',
   links: {
     github: 'https://github.com/ericmarcelinotju',
     linkedin: 'https://www.linkedin.com/in/eric-marcelino-750379204',
@@ -99,8 +74,11 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Tech Lead',
     company: 'PT. Jejak Enviro Teknologi',
+    alias: 'Jejakin',
     location: 'Banten, Indonesia',
     period: 'Jan 2026 — Present',
+    summary:
+      'Leads two product teams, growing engineering capability through mentoring and code reviews while migrating services from Kotlin Spring Boot to Go.',
     highlights: [
       'Leading 2 teams with different product and project needs.',
       'Promote a strong learning environment for engineering teams through sharing sessions and close mentoring.',
@@ -111,8 +89,11 @@ export const experience: ExperienceItem[] = [
   {
     role: 'IT Software Engineer (Lead)',
     company: 'PT. TEMAS Tbk',
+    alias: 'Temas',
     location: 'Jakarta, Indonesia',
     period: 'May 2025 — Jan 2026',
+    summary:
+      'Led three cross-functional teams to ship on schedule, championing clean architecture and SOLID through mentoring and peer review.',
     highlights: [
       'Led 3 cross-functional teams to deliver high-quality software products on schedule.',
       'Promoted clean architecture and SOLID principles through mentoring and peer code reviews.',
@@ -122,8 +103,11 @@ export const experience: ExperienceItem[] = [
   {
     role: 'IT Development Staff',
     company: 'PT. TEMAS Tbk',
+    alias: 'Temas',
     location: 'Jakarta, Indonesia',
     period: 'Apr 2024 — May 2025',
+    summary:
+      'Ran a SCRUM team and raised code quality by introducing unit testing and Go and Vue.js standards across projects.',
     highlights: [
       'Led a SCRUM team using JIRA for task management and sprint planning.',
       'Introduced unit testing practices for Go and Vue.js projects.',
@@ -133,8 +117,11 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Tech Lead Engineer',
     company: 'PT. Data Integrasi Semesta',
+    alias: 'Datis',
     location: 'Jakarta, Indonesia',
     period: 'Feb 2020 — Apr 2024',
+    summary:
+      'Delivered custom software for logistics, banking, and hospitality clients, owning delivery end to end and establishing the core DevOps practices.',
     highlights: [
       'Delivered custom software for logistics, banking, and hospitality clients.',
       'Managed project timelines, cost estimates, and coordination with outsourced developers.',
@@ -143,9 +130,12 @@ export const experience: ExperienceItem[] = [
   },
   {
     role: 'Frontend Developer',
-    company: 'Airpaz.com',
+    company: 'PT. At Network',
+    alias: 'Airpaz',
     location: 'Jakarta, Indonesia',
     period: 'Mar 2019 — Feb 2020',
+    summary:
+      'Modernized the booking frontend, migrating it from a monolithic Laravel app to Nuxt.js.',
     highlights: [
       'Modernized the legacy frontend by migrating from a monolithic Laravel app to Nuxt.js.',
     ],
@@ -153,8 +143,11 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Intern Software Engineer',
     company: 'Samsung R&D Institute Indonesia',
+    alias: 'SRIN',
     location: 'Jakarta, Indonesia',
     period: 'Mar 2018 — Mar 2019',
+    summary:
+      "Built CRM and parental-control mobile apps supporting Samsung's sales and family-focused initiatives.",
     highlights: [
       "Developed CRM and parental control mobile apps to support Samsung's sales and family-focused initiatives.",
     ],
@@ -164,6 +157,8 @@ export const experience: ExperienceItem[] = [
     company: 'BINUS University',
     location: 'Jakarta, Indonesia',
     period: 'Feb 2016 — Feb 2018',
+    summary:
+      'Taught computer science courses and supported students through tutoring and lab assistance.',
     highlights: [
       'Taught computer science courses and supported student learning through tutoring and lab assistance.',
     ],
@@ -175,21 +170,24 @@ export const projects: ProjectItem[] = [
     name: 'Dakota Cinema Ticketing',
     description:
       'A cinema ticketing system where users can buy tickets and snacks online.',
-    url: 'https://dakotacinema.id/',
+    tech: ['Nest.js', 'TypeScript', 'Vue.js'],
   },
   {
     name: 'Paint Store CRM',
     description:
       'A customer relationship management web application built for a paint store.',
+    tech: ['Nest.js', 'TypeScript', 'Vue.js'],
   },
   {
     name: 'Website CMS',
     description:
       'A content management system that makes setting up a website quick and easy.',
+    tech: ['Laravel'],
   },
   {
     name: 'Cafe Point of Sales',
     description: 'A point of sales application tailored for cafes.',
+    tech: ['Laravel', 'React Native'],
   },
 ]
 
@@ -219,20 +217,6 @@ export const languages: Language[] = [
 ]
 
 // --- Company detail pages -------------------------------------------------
-
-export interface CompanyRole {
-  role: string
-  period: string
-  highlights: string[]
-}
-
-export interface Company {
-  slug: string
-  name: string
-  location?: string
-  period: string
-  roles: CompanyRole[]
-}
 
 /** Turn a company name into a URL-friendly slug, e.g. "PT. TEMAS Tbk" -> "pt-temas-tbk". */
 export function companySlug(name: string): string {
@@ -266,11 +250,13 @@ export const companies: Company[] = (() => {
     return {
       slug: companySlug(name),
       name,
+      alias: newest.alias,
       location: newest.location,
       period: items.length > 1 ? `${start} — ${end}` : newest.period,
       roles: items.map((i) => ({
         role: i.role,
         period: i.period,
+        summary: i.summary,
         highlights: i.highlights,
       })),
     }
@@ -281,22 +267,80 @@ export function findCompany(slug: string): Company | undefined {
   return companies.find((c) => c.slug === slug)
 }
 
-// Optional company logos: drop an image at `src/assets/logos/<slug>.<ext>`
-// (svg/png/jpg/webp) and it is picked up automatically at build time —
-// no code change needed. Companies without a logo file show a monogram.
-const logoFiles = import.meta.glob('../assets/logos/*.{svg,png,jpg,jpeg,webp}', {
+// Company logos live in per-company folders under `src/assets/logos/<key>/`,
+// where <key> is the short code below. Within a folder the variant matching
+// the folder name (e.g. `samsung.svg`) is preferred over alternates like
+// `samsung_black.png`, picking svg > png > webp > jpeg > jpg. Companies without
+// a folder fall back to a monogram.
+
+// Maps each logo folder key to the company slug it belongs to.
+const logoFolderToSlug: Record<string, string> = {
+  jejakin: companySlug('PT. Jejak Enviro Teknologi'),
+  temas: companySlug('PT. TEMAS Tbk'),
+  datis: companySlug('PT. Data Integrasi Semesta'),
+  airpaz: companySlug('PT. At Network'),
+  samsung: companySlug('Samsung R&D Institute Indonesia'),
+  binus: companySlug('BINUS University'),
+}
+
+const logoFiles = import.meta.glob('../assets/logos/*/*.{svg,png,jpg,jpeg,webp}', {
   eager: true,
   import: 'default',
 }) as Record<string, string>
 
-const logoBySlug: Record<string, string> = {}
-for (const [filePath, url] of Object.entries(logoFiles)) {
-  const fileName = filePath.split('/').pop() ?? ''
-  const slug = fileName.replace(/\.[^.]+$/, '')
-  logoBySlug[slug] = url
+// Lower number = preferred when multiple formats exist for the same logo.
+const extPriority: Record<string, number> = {
+  svg: 0,
+  png: 1,
+  webp: 2,
+  jpeg: 3,
+  jpg: 4,
 }
 
-/** Resolved logo URL for a company slug, or undefined if no logo file exists. */
+const logoBySlug: Record<string, string> = {}
+{
+  // Track the best (lowest) score chosen per slug so far.
+  const bestScore: Record<string, number> = {}
+  for (const [filePath, url] of Object.entries(logoFiles)) {
+    const parts = filePath.split('/')
+    const fileName = parts.pop() ?? ''
+    const folder = parts.pop() ?? ''
+    const slug = logoFolderToSlug[folder]
+    if (!slug) continue
+
+    const ext = fileName.split('.').pop()?.toLowerCase() ?? ''
+    const base = fileName.replace(/\.[^.]+$/, '')
+    // Prefer the variant named after the folder; penalize alternates heavily.
+    const isPrimary = base === folder
+    const score = (isPrimary ? 0 : 100) + (extPriority[ext] ?? 99)
+
+    if (bestScore[slug] === undefined || score < bestScore[slug]) {
+      bestScore[slug] = score
+      logoBySlug[slug] = url
+    }
+  }
+}
+
+/** Resolved logo URL for a company slug, or undefined if no logo exists. */
 export function companyLogo(slug: string): string | undefined {
   return logoBySlug[slug]
+}
+
+// Official website per company. Companies without an entry render no link.
+const websiteByName: Record<string, string> = {
+  'PT. Jejak Enviro Teknologi': 'https://jejakin.com',
+  'PT. TEMAS Tbk': 'https://temas.id',
+  'PT. Data Integrasi Semesta': 'https://datis.co.id',
+  'PT. At Network': 'https://airpaz.com',
+  'Samsung R&D Institute Indonesia': 'https://www.samsung.com/id/srin/',
+  'BINUS University': 'https://binus.ac.id',
+}
+
+const websiteBySlug: Record<string, string> = Object.fromEntries(
+  Object.entries(websiteByName).map(([name, url]) => [companySlug(name), url]),
+)
+
+/** Official website URL for a company slug, or undefined if none is set. */
+export function companyWebsite(slug: string): string | undefined {
+  return websiteBySlug[slug]
 }

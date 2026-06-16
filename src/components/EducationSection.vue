@@ -4,7 +4,7 @@ import { education } from '../data/resume'
 
 <template>
   <section id="education" class="section">
-    <div class="container">
+    <div class="container" v-reveal>
       <h2 class="section__title">Education</h2>
       <div class="edu">
         <div v-for="item in education" :key="item.school" class="edu__card">
@@ -55,7 +55,8 @@ import { education } from '../data/resume'
 }
 
 .edu__period {
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 </style>

@@ -21,7 +21,11 @@ function initials(name: string): string {
 </script>
 
 <template>
-  <span class="clogo" :style="{ width: size + 'px', height: size + 'px' }">
+  <span
+    class="clogo"
+    :class="{ 'clogo--img': logo && !failed }"
+    :style="{ width: size + 'px', height: size + 'px' }"
+  >
     <img
       v-if="logo && !failed"
       class="clogo__img"
@@ -47,11 +51,17 @@ function initials(name: string): string {
   background: var(--surface-2);
 }
 
+/* For real logos, drop the chip styling so the transparent artwork blends in. */
+.clogo--img {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
 .clogo__img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #fff;
 }
 
 .clogo__monogram {
