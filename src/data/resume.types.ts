@@ -21,6 +21,8 @@ export interface SkillGroup {
 export interface ExperienceItem {
   role: string
   company: string
+  /** Short name shown on the home page; the detail page keeps `company`. */
+  alias?: string
   location?: string
   period: string
   /** One-line summary of the role, shown on the home page timeline. */
@@ -61,6 +63,7 @@ export interface CompanyRole {
 export interface Company {
   slug: string
   name: string
+  alias?: string
   location?: string
   period: string
   roles: CompanyRole[]

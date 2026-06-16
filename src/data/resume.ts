@@ -75,6 +75,7 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Tech Lead',
     company: 'PT. Jejak Enviro Teknologi',
+    alias: 'Jejakin',
     location: 'Banten, Indonesia',
     period: 'Jan 2026 — Present',
     summary:
@@ -89,6 +90,7 @@ export const experience: ExperienceItem[] = [
   {
     role: 'IT Software Engineer (Lead)',
     company: 'PT. TEMAS Tbk',
+    alias: 'Temas',
     location: 'Jakarta, Indonesia',
     period: 'May 2025 — Jan 2026',
     summary:
@@ -102,6 +104,7 @@ export const experience: ExperienceItem[] = [
   {
     role: 'IT Development Staff',
     company: 'PT. TEMAS Tbk',
+    alias: 'Temas',
     location: 'Jakarta, Indonesia',
     period: 'Apr 2024 — May 2025',
     summary:
@@ -115,6 +118,7 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Tech Lead Engineer',
     company: 'PT. Data Integrasi Semesta',
+    alias: 'Datis',
     location: 'Jakarta, Indonesia',
     period: 'Feb 2020 — Apr 2024',
     summary:
@@ -127,7 +131,8 @@ export const experience: ExperienceItem[] = [
   },
   {
     role: 'Frontend Developer',
-    company: 'Airpaz.com',
+    company: 'PT. At Network',
+    alias: 'Airpaz',
     location: 'Jakarta, Indonesia',
     period: 'Mar 2019 — Feb 2020',
     summary:
@@ -242,6 +247,7 @@ export const companies: Company[] = (() => {
     return {
       slug: companySlug(name),
       name,
+      alias: newest.alias,
       location: newest.location,
       period: items.length > 1 ? `${start} — ${end}` : newest.period,
       roles: items.map((i) => ({
@@ -269,7 +275,7 @@ const logoFolderToSlug: Record<string, string> = {
   jejakin: companySlug('PT. Jejak Enviro Teknologi'),
   temas: companySlug('PT. TEMAS Tbk'),
   datis: companySlug('PT. Data Integrasi Semesta'),
-  airpaz: companySlug('Airpaz.com'),
+  airpaz: companySlug('PT. At Network'),
   samsung: companySlug('Samsung R&D Institute Indonesia'),
   binus: companySlug('BINUS University'),
 }
@@ -322,7 +328,7 @@ const websiteByName: Record<string, string> = {
   'PT. Jejak Enviro Teknologi': 'https://jejakin.com',
   'PT. TEMAS Tbk': 'https://temas.id',
   'PT. Data Integrasi Semesta': 'https://datis.co.id',
-  'Airpaz.com': 'https://airpaz.com',
+  'PT. At Network': 'https://airpaz.com',
   'Samsung R&D Institute Indonesia': 'https://www.samsung.com/id/srin/',
   'BINUS University': 'https://binus.ac.id',
 }

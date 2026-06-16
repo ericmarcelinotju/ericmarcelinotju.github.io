@@ -17,7 +17,7 @@ import CompanyLogo from './CompanyLogo.vue'
           <router-link
             class="timeline__card"
             :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
-            :aria-label="`${job.role} at ${job.company}, view details`"
+            :aria-label="`${job.role} at ${job.alias ?? job.company}, view details`"
           >
             <h3 class="timeline__role">{{ job.role }}</h3>
             <p class="timeline__company">
@@ -26,7 +26,7 @@ import CompanyLogo from './CompanyLogo.vue'
                 :logo="companyLogo(companySlug(job.company))"
                 :size="36"
               />
-              <span class="timeline__companyname">{{ job.company }}</span>
+              <span class="timeline__companyname">{{ job.alias ?? job.company }}</span>
               <span v-if="job.location" class="timeline__location"> · {{ job.location }}</span>
             </p>
             <p class="timeline__summary">{{ job.summary }}</p>
