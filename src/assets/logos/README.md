@@ -1,21 +1,26 @@
 # Company logos
 
-Drop a logo image here named after the company **slug**, and it appears
-automatically on the Experience timeline and that company's detail page —
-no code changes needed. Companies without a file show a monogram fallback.
+Each company's logo lives in its own folder here, named with the short **key**
+below. The file named after the folder (e.g. `samsung/samsung.svg`) is used;
+alternates like `samsung_black.png` are kept for reference but ignored.
+When several formats exist, the order of preference is
+`svg` → `png` → `webp` → `jpeg` → `jpg`. Companies without a folder show a
+monogram fallback.
 
 Accepted extensions: `.svg`, `.png`, `.jpg`, `.jpeg`, `.webp`
-(SVG or a square-ish PNG with transparent/white background looks best.)
+(SVG or a square-ish PNG with a transparent/white background looks best.)
 
-Expected filenames (one per company):
+Folder key → company (mapping lives in `src/data/resume.ts`):
 
-| Company                          | File to add                          |
-| -------------------------------- | ------------------------------------ |
-| PT. Jejak Enviro Teknologi       | `pt-jejak-enviro-teknologi.svg`      |
-| PT. TEMAS Tbk                    | `pt-temas-tbk.svg`                   |
-| PT. Data Integrasi Semesta       | `pt-data-integrasi-semesta.svg`      |
-| Airpaz.com                       | `airpaz-com.svg`                     |
-| Samsung R&D Institute Indonesia  | `samsung-r-d-institute-indonesia.svg`|
-| BINUS University                 | `binus-university.svg`               |
+| Folder key | Company                          | Primary file        |
+| ---------- | -------------------------------- | ------------------- |
+| `jejakin`  | PT. Jejak Enviro Teknologi       | `jejakin/jejakin.*` |
+| `temas`    | PT. TEMAS Tbk                    | `temas/temas.*`     |
+| `datis`    | PT. Data Integrasi Semesta       | `datis/datis.*`     |
+| `airpaz`   | Airpaz.com                       | `airpaz/airpaz.*`   |
+| `samsung`  | Samsung R&D Institute Indonesia  | `samsung/samsung.*` |
+| `binus`    | BINUS University                 | `binus/binus.*`     |
 
-(Replace `.svg` with `.png`/`.webp`/etc. if that's the format you have.)
+To add a new company logo: create a folder with a new key, drop the image in as
+`<key>.<ext>`, and add a `<key>: companySlug('<Company Name>')` entry to
+`logoFolderToSlug` in `src/data/resume.ts`.

@@ -8,6 +8,7 @@ const year = new Date().getFullYear()
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__cta">
+        <p class="footer__kicker">Get in touch</p>
         <h2 class="footer__title">Let's build something together.</h2>
         <a class="footer__email" :href="`mailto:${profile.email}`">
           {{ profile.email }}
@@ -34,19 +35,28 @@ const year = new Date().getFullYear()
 }
 
 .footer__inner {
-  padding: 56px 24px 40px;
+  padding: 72px 24px 44px;
   text-align: center;
 }
 
-.footer__title {
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+.footer__kicker {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
   margin-bottom: 12px;
 }
 
+.footer__title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+
 .footer__email {
-  font-size: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
   font-weight: 600;
 }
 

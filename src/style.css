@@ -4,9 +4,10 @@
   /* Soft sea-blue accent — shared across themes */
   --accent: #2f8fb3;
   --accent-light: #5bb3d6;
-  --accent-ring: rgba(47, 143, 179, 0.2);
-  --hero-glow-1: rgba(91, 179, 214, 0.3);
-  --hero-glow-2: rgba(47, 143, 179, 0.22);
+  --accent-strong: #237a9e;
+  --accent-ring: rgba(47, 143, 179, 0.18);
+  --hero-glow-1: rgba(91, 179, 214, 0.16);
+  --hero-glow-2: rgba(47, 143, 179, 0.12);
 
   /* Light theme (default) */
   --bg: #f5fafc;
@@ -15,13 +16,20 @@
   --surface-2: #eef5f9;
   --text: #14303f;
   --text-muted: #57707f;
+  --text-faint: #8aa0ad;
   --border: rgba(31, 89, 120, 0.14);
+  --border-strong: rgba(31, 89, 120, 0.22);
   --shadow: 0 10px 30px rgba(31, 89, 120, 0.08);
+  --shadow-lift: 0 18px 44px rgba(31, 89, 120, 0.14);
+  --ghost-mark: rgba(47, 143, 179, 0.05);
 
-  --radius: 14px;
-  --max-width: 960px;
+  --radius: 16px;
+  --radius-sm: 9px;
+  --max-width: 1040px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
 }
 
 /* Dark theme tokens, applied when the user's OS prefers dark
@@ -34,8 +42,14 @@
     --surface-2: #1c3443;
     --text: #e8eef3;
     --text-muted: #9fb2c0;
+    --text-faint: #6c8493;
     --border: rgba(148, 180, 200, 0.16);
+    --border-strong: rgba(148, 180, 200, 0.26);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.42);
+    --ghost-mark: rgba(91, 179, 214, 0.06);
+    --hero-glow-1: rgba(91, 179, 214, 0.14);
+    --hero-glow-2: rgba(47, 143, 179, 0.1);
   }
 }
 
@@ -46,8 +60,14 @@
   --surface-2: #1c3443;
   --text: #e8eef3;
   --text-muted: #9fb2c0;
+  --text-faint: #6c8493;
   --border: rgba(148, 180, 200, 0.16);
+  --border-strong: rgba(148, 180, 200, 0.26);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.42);
+  --ghost-mark: rgba(91, 179, 214, 0.06);
+  --hero-glow-1: rgba(91, 179, 214, 0.14);
+  --hero-glow-2: rgba(47, 143, 179, 0.1);
 }
 
 * {
@@ -59,7 +79,7 @@
 html {
   scroll-behavior: smooth;
   /* Offset anchored sections so the sticky header doesn't cover them. */
-  scroll-padding-top: 84px;
+  scroll-padding-top: 96px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -74,6 +94,7 @@ body {
   color: var(--text);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -100,32 +121,56 @@ img {
 }
 
 .section {
-  padding: 72px 0;
+  padding: 96px 0;
   border-top: 1px solid var(--border);
 }
 
-.section__title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -0.02em;
+/* A small monospace kicker that pairs with a section title. Used sparingly —
+   not on every section — to add technical texture without templated eyebrows. */
+.section__kicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 10px;
 }
 
-.section__title::after {
-  content: '';
-  display: block;
-  width: 48px;
-  height: 3px;
-  margin-top: 10px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+.section__title {
+  font-size: clamp(1.7rem, 3.4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.section__lead {
+  margin-top: 12px;
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: 1.02rem;
+}
+
+/* Scroll-reveal: progressively enhanced. Elements start hidden, the v-reveal
+   directive adds .is-visible when they enter the viewport. Under reduced
+   motion the directive reveals immediately and the transition is suppressed. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 640px) {
   .section {
-    padding: 52px 0;
-  }
-  .section__title {
-    font-size: 1.4rem;
+    padding: 64px 0;
   }
 }

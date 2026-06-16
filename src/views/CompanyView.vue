@@ -25,7 +25,7 @@ watchEffect(() => {
         <CompanyLogo
           :name="company.name"
           :logo="companyLogo(company.slug)"
-          :size="64"
+          :size="96"
         />
         <div>
           <h1 class="company__name">{{ company.name }}</h1>
@@ -37,11 +37,12 @@ watchEffect(() => {
         </div>
       </header>
 
-      <section v-for="(role, i) in company.roles" :key="i" class="role">
+      <section v-for="(role, i) in company.roles" :key="i" class="role" v-reveal>
         <div class="role__head">
           <h2 class="role__title">{{ role.role }}</h2>
           <span class="role__period">{{ role.period }}</span>
         </div>
+        <p class="role__summary">{{ role.summary }}</p>
         <ul class="role__highlights">
           <li v-for="(point, j) in role.highlights" :key="j">{{ point }}</li>
         </ul>
@@ -115,7 +116,13 @@ watchEffect(() => {
   align-items: baseline;
   justify-content: space-between;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+.role__summary {
+  color: var(--text);
+  font-size: 1.02rem;
+  margin-bottom: 16px;
 }
 
 .role__title {
@@ -124,7 +131,8 @@ watchEffect(() => {
 }
 
 .role__period {
-  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -142,10 +150,14 @@ watchEffect(() => {
 }
 
 .role__highlights li::before {
-  content: '▹';
+  content: '';
   position: absolute;
   left: 0;
-  color: var(--accent-light);
+  top: 0.65em;
+  width: 11px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
 }
 
 .company__notfound {
