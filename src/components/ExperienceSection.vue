@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { experience, companySlug } from '../data/resume'
+import { experience, companySlug, companyLogo } from '../data/resume'
+import CompanyLogo from './CompanyLogo.vue'
 </script>
 
 <template>
@@ -17,6 +18,11 @@ import { experience, companySlug } from '../data/resume'
             <span class="timeline__period">{{ job.period }}</span>
           </div>
           <p class="timeline__company">
+            <CompanyLogo
+              :name="job.company"
+              :logo="companyLogo(companySlug(job.company))"
+              :size="24"
+            />
             <router-link
               class="timeline__companylink"
               :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
@@ -89,6 +95,9 @@ import { experience, companySlug } from '../data/resume'
 }
 
 .timeline__company {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   color: var(--accent-light);
   font-weight: 500;
   margin-bottom: 12px;

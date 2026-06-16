@@ -280,3 +280,23 @@ export const companies: Company[] = (() => {
 export function findCompany(slug: string): Company | undefined {
   return companies.find((c) => c.slug === slug)
 }
+
+// Optional company logos: drop an image at `src/assets/logos/<slug>.<ext>`
+// (svg/png/jpg/webp) and it is picked up automatically at build time —
+// no code change needed. Companies without a logo file show a monogram.
+const logoFiles = import.meta.glob('../assets/logos/*.{svg,png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+const logoBySlug: Record<string, string> = {}
+for (const [filePath, url] of Object.entries(logoFiles)) {
+  const fileName = filePath.split('/').pop() ?? ''
+  const slug = fileName.replace(/\.[^.]+$/, '')
+  logoBySlug[slug] = url
+}
+
+/** Resolved logo URL for a company slug, or undefined if no logo file exists. */
+export function companyLogo(slug: string): string | undefined {
+  return logoBySlug[slug]
+}

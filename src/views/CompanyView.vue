@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { findCompany, profile } from '../data/resume'
+import { companyLogo, findCompany, profile } from '../data/resume'
+import CompanyLogo from '../components/CompanyLogo.vue'
 
 const route = useRoute()
 const company = computed(() => findCompany(String(route.params.slug)))
@@ -21,12 +22,19 @@ watchEffect(() => {
 
     <template v-if="company">
       <header class="company__header">
-        <h1 class="company__name">{{ company.name }}</h1>
-        <p class="company__meta">
-          <span v-if="company.location">{{ company.location }}</span>
-          <span class="company__dot" v-if="company.location">·</span>
-          <span>{{ company.period }}</span>
-        </p>
+        <CompanyLogo
+          :name="company.name"
+          :logo="companyLogo(company.slug)"
+          :size="64"
+        />
+        <div>
+          <h1 class="company__name">{{ company.name }}</h1>
+          <p class="company__meta">
+            <span v-if="company.location">{{ company.location }}</span>
+            <span class="company__dot" v-if="company.location">·</span>
+            <span>{{ company.period }}</span>
+          </p>
+        </div>
       </header>
 
       <section v-for="(role, i) in company.roles" :key="i" class="role">
@@ -65,6 +73,9 @@ watchEffect(() => {
 }
 
 .company__header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
   padding-bottom: 24px;
   margin-bottom: 12px;
   border-bottom: 1px solid var(--border);
