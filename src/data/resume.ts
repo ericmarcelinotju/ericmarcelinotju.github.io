@@ -316,3 +316,22 @@ const logoBySlug: Record<string, string> = {}
 export function companyLogo(slug: string): string | undefined {
   return logoBySlug[slug]
 }
+
+// Official website per company. Companies without an entry render no link.
+const websiteByName: Record<string, string> = {
+  'PT. Jejak Enviro Teknologi': 'https://jejakin.com',
+  'PT. TEMAS Tbk': 'https://temas.id',
+  'PT. Data Integrasi Semesta': 'https://datis.co.id',
+  'Airpaz.com': 'https://airpaz.com',
+  'Samsung R&D Institute Indonesia': 'https://www.samsung.com/id/srin/',
+  'BINUS University': 'https://binus.ac.id',
+}
+
+const websiteBySlug: Record<string, string> = Object.fromEntries(
+  Object.entries(websiteByName).map(([name, url]) => [companySlug(name), url]),
+)
+
+/** Official website URL for a company slug, or undefined if none is set. */
+export function companyWebsite(slug: string): string | undefined {
+  return websiteBySlug[slug]
+}

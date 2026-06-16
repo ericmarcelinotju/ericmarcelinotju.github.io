@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { companyLogo, findCompany, profile } from '../data/resume'
+import { companyLogo, companyWebsite, findCompany, profile } from '../data/resume'
 import CompanyLogo from '../components/CompanyLogo.vue'
 
 const route = useRoute()
 const company = computed(() => findCompany(String(route.params.slug)))
+const website = computed(() =>
+  company.value ? companyWebsite(company.value.slug) : undefined,
+)
 
 watchEffect(() => {
   document.title = company.value
@@ -34,6 +37,16 @@ watchEffect(() => {
             <span class="company__dot" v-if="company.location">·</span>
             <span>{{ company.period }}</span>
           </p>
+          <a
+            v-if="website"
+            class="company__website"
+            :href="website"
+            target="_blank"
+            rel="noopener"
+          >
+            Visit website
+            <span class="company__website-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       </header>
 
@@ -99,6 +112,28 @@ watchEffect(() => {
 
 .company__dot {
   opacity: 0.6;
+}
+
+.company__website {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.company__website:hover {
+  color: var(--accent-light);
+}
+
+.company__website-arrow {
+  transition: transform 0.2s ease;
+}
+
+.company__website:hover .company__website-arrow {
+  transform: translate(2px, -2px);
 }
 
 .role {
