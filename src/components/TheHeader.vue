@@ -6,6 +6,7 @@ const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
   { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Achievements', href: '#achievements' },
   { label: 'Education', href: '#education' },
 ]
@@ -62,19 +63,23 @@ function initials(name: string) {
 <template>
   <header class="header" :class="{ 'header--scrolled': scrolled }">
     <div class="container header__inner">
-      <a class="header__brand" href="#top" @click="menuOpen = false">
+      <router-link
+        class="header__brand"
+        :to="{ path: '/', hash: '#top' }"
+        @click="menuOpen = false"
+      >
         <span class="header__mark">{{ initials(profile.name) }}</span>
         <span class="header__name">{{ profile.name }}</span>
-      </a>
+      </router-link>
 
       <div class="header__right">
         <nav class="header__nav" :class="{ 'header__nav--open': menuOpen }">
-          <a
+          <router-link
             v-for="link in navLinks"
             :key="link.href"
-            :href="link.href"
+            :to="{ path: '/', hash: link.href }"
             @click="menuOpen = false"
-            >{{ link.label }}</a
+            >{{ link.label }}</router-link
           >
         </nav>
 

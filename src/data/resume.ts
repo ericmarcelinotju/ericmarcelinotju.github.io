@@ -31,6 +31,12 @@ export interface AchievementItem {
   description: string
 }
 
+export interface ProjectItem {
+  name: string
+  description: string
+  url?: string
+}
+
 export interface EducationItem {
   degree: string
   school: string
@@ -164,6 +170,29 @@ export const experience: ExperienceItem[] = [
   },
 ]
 
+export const projects: ProjectItem[] = [
+  {
+    name: 'Dakota Cinema Ticketing',
+    description:
+      'A cinema ticketing system where users can buy tickets and snacks online.',
+    url: 'https://dakotacinema.id/',
+  },
+  {
+    name: 'Paint Store CRM',
+    description:
+      'A customer relationship management web application built for a paint store.',
+  },
+  {
+    name: 'Website CMS',
+    description:
+      'A content management system that makes setting up a website quick and easy.',
+  },
+  {
+    name: 'Cafe Point of Sales',
+    description: 'A point of sales application tailored for cafes.',
+  },
+]
+
 export const achievements: AchievementItem[] = [
   {
     name: '1st Winner — LINE Dev Challenge Indonesia',
@@ -188,3 +217,86 @@ export const languages: Language[] = [
   { name: 'English', level: 'Proficient' },
   { name: 'Indonesian', level: 'Native' },
 ]
+
+// --- Company detail pages -------------------------------------------------
+
+export interface CompanyRole {
+  role: string
+  period: string
+  highlights: string[]
+}
+
+export interface Company {
+  slug: string
+  name: string
+  location?: string
+  period: string
+  roles: CompanyRole[]
+}
+
+/** Turn a company name into a URL-friendly slug, e.g. "PT. TEMAS Tbk" -> "pt-temas-tbk". */
+export function companySlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+/**
+ * Companies derived from the experience list (single source of truth),
+ * grouping multiple roles at the same employer and computing the overall span.
+ * Order is preserved most-recent-first.
+ */
+export const companies: Company[] = (() => {
+  const order: string[] = []
+  const byName = new Map<string, ExperienceItem[]>()
+  for (const item of experience) {
+    if (!byName.has(item.company)) {
+      byName.set(item.company, [])
+      order.push(item.company)
+    }
+    byName.get(item.company)!.push(item)
+  }
+  return order.map((name) => {
+    const items = byName.get(name)!
+    const newest = items[0]
+    const oldest = items[items.length - 1]
+    const start = oldest.period.split('—')[0]?.trim() ?? oldest.period
+    const end = newest.period.split('—')[1]?.trim() ?? newest.period
+    return {
+      slug: companySlug(name),
+      name,
+      location: newest.location,
+      period: items.length > 1 ? `${start} — ${end}` : newest.period,
+      roles: items.map((i) => ({
+        role: i.role,
+        period: i.period,
+        highlights: i.highlights,
+      })),
+    }
+  })
+})()
+
+export function findCompany(slug: string): Company | undefined {
+  return companies.find((c) => c.slug === slug)
+}
+
+// Optional company logos: drop an image at `src/assets/logos/<slug>.<ext>`
+// (svg/png/jpg/webp) and it is picked up automatically at build time —
+// no code change needed. Companies without a logo file show a monogram.
+const logoFiles = import.meta.glob('../assets/logos/*.{svg,png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+const logoBySlug: Record<string, string> = {}
+for (const [filePath, url] of Object.entries(logoFiles)) {
+  const fileName = filePath.split('/').pop() ?? ''
+  const slug = fileName.replace(/\.[^.]+$/, '')
+  logoBySlug[slug] = url
+}
+
+/** Resolved logo URL for a company slug, or undefined if no logo file exists. */
+export function companyLogo(slug: string): string | undefined {
+  return logoBySlug[slug]
+}

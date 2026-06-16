@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { experience } from '../data/resume'
+import { experience, companySlug, companyLogo } from '../data/resume'
+import CompanyLogo from './CompanyLogo.vue'
 </script>
 
 <template>
@@ -7,17 +8,38 @@ import { experience } from '../data/resume'
     <div class="container">
       <h2 class="section__title">Experience</h2>
       <ol class="timeline">
-        <li v-for="job in experience" :key="job.company" class="timeline__item">
+        <li
+          v-for="job in experience"
+          :key="job.company + job.period"
+          class="timeline__item"
+        >
           <div class="timeline__head">
             <h3 class="timeline__role">{{ job.role }}</h3>
             <span class="timeline__period">{{ job.period }}</span>
           </div>
           <p class="timeline__company">
-            {{ job.company }}<span v-if="job.location" class="timeline__location"> · {{ job.location }}</span>
+            <CompanyLogo
+              :name="job.company"
+              :logo="companyLogo(companySlug(job.company))"
+              :size="24"
+            />
+            <router-link
+              class="timeline__companylink"
+              :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
+            >
+              {{ job.company }}
+            </router-link>
+            <span v-if="job.location" class="timeline__location"> · {{ job.location }}</span>
           </p>
           <ul class="timeline__highlights">
-            <li v-for="(point, i) in job.highlights" :key="i">{{ point }}</li>
+            <li v-for="(point, j) in job.highlights" :key="j">{{ point }}</li>
           </ul>
+          <router-link
+            class="timeline__details"
+            :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
+          >
+            View details →
+          </router-link>
         </li>
       </ol>
     </div>
@@ -73,6 +95,9 @@ import { experience } from '../data/resume'
 }
 
 .timeline__company {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   color: var(--accent-light);
   font-weight: 500;
   margin-bottom: 12px;
@@ -81,6 +106,27 @@ import { experience } from '../data/resume'
 .timeline__location {
   color: var(--text-muted);
   font-weight: 400;
+}
+
+.timeline__companylink {
+  color: var(--accent-light);
+  font-weight: 500;
+}
+
+.timeline__companylink:hover {
+  color: var(--text);
+}
+
+.timeline__details {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.timeline__details:hover {
+  color: var(--accent-light);
 }
 
 .timeline__highlights {
