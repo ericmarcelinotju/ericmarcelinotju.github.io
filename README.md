@@ -1,6 +1,6 @@
 # ericmarcelinotju.github.io
 
-Personal profile website for **Eric Marcelino**, built with [Vue 3](https://vuejs.org/),
+My personal website, built with [Vue 3](https://vuejs.org/),
 [TypeScript](https://www.typescriptlang.org/), and [Vite](https://vitejs.dev/).
 
 ## Tech stack
@@ -38,6 +38,3 @@ npm run preview  # preview the production build
 Pushing to `main` triggers the **Deploy to GitHub Pages** GitHub Actions workflow
 (`.github/workflows/deploy.yml`), which builds the site and publishes `dist/` to
 GitHub Pages.
-
-> One-time setup: in the repository's **Settings → Pages**, set **Source** to
-> **GitHub Actions**.
