@@ -1,5 +1,72 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
 import { profile, languages } from '../data/resume'
+
+// --- Pointer-follow spotlight + parallax -------------------------------------
+// The glow is moved with transform (GPU) and eased toward the cursor for a
+// trailing feel. Pointer position is written straight to CSS variables on the
+// DOM node — never through Vue reactivity — so mousemove never re-renders.
+const heroEl = ref<HTMLElement | null>(null)
+let cleanup: (() => void) | null = null
+
+onMounted(() => {
+  const el = heroEl.value
+  if (!el) return
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const finePointer = window.matchMedia('(pointer: fine)').matches
+  if (reduce || !finePointer) return
+
+  let rect = el.getBoundingClientRect()
+  let targetX = rect.width / 2
+  let targetY = rect.height / 2
+  let curX = targetX
+  let curY = targetY
+  let raf = 0
+
+  const tick = () => {
+    curX += (targetX - curX) * 0.14
+    curY += (targetY - curY) * 0.14
+    el.style.setProperty('--gx', `${curX}px`)
+    el.style.setProperty('--gy', `${curY}px`)
+    // Parallax: -1..1 from center, applied subtly to the portrait panel.
+    el.style.setProperty('--px', `${(curX / rect.width - 0.5) * 2}`)
+    el.style.setProperty('--py', `${(curY / rect.height - 0.5) * 2}`)
+    if (Math.abs(targetX - curX) > 0.4 || Math.abs(targetY - curY) > 0.4) {
+      raf = requestAnimationFrame(tick)
+    } else {
+      raf = 0
+    }
+  }
+
+  const onMove = (e: PointerEvent) => {
+    rect = el.getBoundingClientRect()
+    targetX = e.clientX - rect.left
+    targetY = e.clientY - rect.top
+    if (!raf) raf = requestAnimationFrame(tick)
+  }
+  const onEnter = () => el.classList.add('hero--active')
+  const onLeave = () => {
+    el.classList.remove('hero--active')
+    rect = el.getBoundingClientRect()
+    targetX = rect.width / 2
+    targetY = rect.height / 2
+    if (!raf) raf = requestAnimationFrame(tick)
+  }
+
+  el.addEventListener('pointermove', onMove)
+  el.addEventListener('pointerenter', onEnter)
+  el.addEventListener('pointerleave', onLeave)
+
+  cleanup = () => {
+    el.removeEventListener('pointermove', onMove)
+    el.removeEventListener('pointerenter', onEnter)
+    el.removeEventListener('pointerleave', onLeave)
+    if (raf) cancelAnimationFrame(raf)
+  }
+})
+
+onUnmounted(() => cleanup?.())
 
 // Initials for the monogram shown until a real portrait is added.
 const mark = profile.name
@@ -21,7 +88,8 @@ const portrait = Object.values(portraitFiles)[0]
 </script>
 
 <template>
-  <section id="top" class="hero">
+  <section id="top" class="hero" ref="heroEl">
+    <div class="hero__spotlight" aria-hidden="true"></div>
     <div class="container hero__inner" id="about">
       <div class="hero__content">
         <p class="hero__eyebrow">{{ profile.title }} · {{ profile.location }}</p>
@@ -88,8 +156,41 @@ const portrait = Object.values(portraitFiles)[0]
     radial-gradient(820px 460px at -10% 0%, var(--hero-glow-2), transparent 55%);
 }
 
+/* Cursor-following glow. A fixed-size circle moved with transform (GPU), so
+   it never repaints; eased toward the pointer in JS for a trailing feel. */
+.hero__spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(circle, var(--hero-spot), transparent 62%);
+  transform: translate3d(var(--gx, 0), var(--gy, 0), 0);
+  transition: opacity 0.45s ease;
+  will-change: transform, opacity;
+}
+
+.hero--active .hero__spotlight {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__spotlight {
+    display: none;
+  }
+  .hero__visual {
+    transform: none;
+  }
+}
+
 .hero__inner {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 56px;
@@ -196,6 +297,9 @@ const portrait = Object.values(portraitFiles)[0]
   justify-self: end;
   width: 100%;
   max-width: 380px;
+  /* Subtle parallax driven by the same pointer loop (px/py are -1..1). */
+  transform: translate3d(calc(var(--px, 0) * 7px), calc(var(--py, 0) * 7px), 0);
+  will-change: transform;
 }
 
 .hero__portrait {

@@ -8,6 +8,7 @@
   --accent-ring: rgba(47, 143, 179, 0.18);
   --hero-glow-1: rgba(91, 179, 214, 0.16);
   --hero-glow-2: rgba(47, 143, 179, 0.12);
+  --hero-spot: rgba(47, 143, 179, 0.2);
 
   /* Light theme (default) */
   --bg: #f5fafc;
@@ -50,6 +51,7 @@
     --ghost-mark: rgba(91, 179, 214, 0.06);
     --hero-glow-1: rgba(91, 179, 214, 0.14);
     --hero-glow-2: rgba(47, 143, 179, 0.1);
+    --hero-spot: rgba(91, 179, 214, 0.16);
   }
 }
 
