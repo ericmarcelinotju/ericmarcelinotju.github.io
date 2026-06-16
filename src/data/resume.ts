@@ -31,6 +31,12 @@ export interface AchievementItem {
   description: string
 }
 
+export interface ProjectItem {
+  name: string
+  description: string
+  url?: string
+}
+
 export interface EducationItem {
   degree: string
   school: string
@@ -161,6 +167,29 @@ export const experience: ExperienceItem[] = [
     highlights: [
       'Taught computer science courses and supported student learning through tutoring and lab assistance.',
     ],
+  },
+]
+
+export const projects: ProjectItem[] = [
+  {
+    name: 'Dakota Cinema Ticketing',
+    description:
+      'A cinema ticketing system where users can buy tickets and snacks online.',
+    url: 'https://dakotacinema.id/',
+  },
+  {
+    name: 'Paint Store CRM',
+    description:
+      'A customer relationship management web application built for a paint store.',
+  },
+  {
+    name: 'Website CMS',
+    description:
+      'A content management system that makes setting up a website quick and easy.',
+  },
+  {
+    name: 'Cafe Point of Sales',
+    description: 'A point of sales application tailored for cafes.',
   },
 ]
 
