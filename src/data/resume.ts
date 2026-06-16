@@ -21,20 +21,21 @@ export interface SkillGroup {
 export interface ExperienceItem {
   role: string
   company: string
+  location?: string
   period: string
   highlights: string[]
 }
 
-export interface ProjectItem {
+export interface AchievementItem {
   name: string
   description: string
-  url?: string
 }
 
 export interface EducationItem {
   degree: string
   school: string
   period: string
+  gpa?: string
 }
 
 export interface Language {
@@ -44,15 +45,15 @@ export interface Language {
 
 export const profile: Profile = {
   name: 'Eric Marcelino',
-  title: 'Tech Lead Engineer',
+  title: 'Tech Lead',
   tagline:
-    'Full-stack engineer building reliable, robust software across web, mobile, and cloud.',
+    'Passionate and disciplined Software Engineer with 6+ years of experience building robust solutions across web, mobile, desktop, and IoT. Skilled in Go, Vue.js, Flutter, and DevOps practices — a fast learner and proactive team contributor.',
   location: 'Indonesia',
   email: 'ericmarcelinotju@gmail.com',
   phone: '+62 813 8273 4943',
   links: {
     github: 'https://github.com/ericmarcelinotju',
-    linkedin: 'https://www.linkedin.com/in/ericmarcelinotju',
+    linkedin: 'https://www.linkedin.com/in/eric-marcelino-750379204',
   },
 }
 
@@ -61,119 +62,116 @@ export const skillGroups: SkillGroup[] = [
     category: 'Languages',
     items: [
       'Go',
-      'PHP',
-      'JavaScript',
-      'TypeScript',
       'Java',
+      'PHP',
+      'Dart',
       'Kotlin',
       'Swift',
+      'JavaScript',
+      'TypeScript',
+      'Python',
       'C#',
-      'C',
       'C++',
+      'C',
     ],
   },
   {
-    category: 'Frameworks & Platforms',
-    items: [
-      'Gin',
-      'Laravel',
-      'VueJS',
-      'ReactJS',
-      'NuxtJS',
-      'NodeJS',
-      'NestJS',
-      '.NET',
-      'Android',
-      'iOS',
-    ],
+    category: 'Frameworks & Libraries',
+    items: ['Vue.js', 'React.js', 'Flutter', 'Nuxt.js', 'Laravel', 'Spring Boot'],
   },
   {
-    category: 'Databases & Storage',
-    items: ['MySQL', 'PostgreSQL', 'NoSQL', 'Firebase', 'Redis', 'Memcache'],
+    category: 'DevOps',
+    items: ['Docker', 'Jenkins', 'GitLab CI/CD', 'KubeSphere', 'Harbor', 'Bitbucket'],
   },
   {
-    category: 'Infrastructure & Tooling',
-    items: ['CI/CD', 'Linux', 'Bash', 'RabbitMQ', 'gRPC', 'REST API'],
-  },
-  {
-    category: 'Styling',
-    items: ['CSS', 'SCSS', 'SASS'],
+    category: 'Practices',
+    items: ['SOLID', 'TDD', 'Agile (SCRUM)', 'CI/CD', 'Clean Architecture'],
   },
 ]
 
 export const experience: ExperienceItem[] = [
   {
-    role: 'Technical Lead',
-    company: 'Jejakin',
-    period: '01/2026 — Present',
+    role: 'Tech Lead',
+    company: 'PT. Jejak Enviro Teknologi',
+    location: 'Banten, Indonesia',
+    period: 'Jan 2026 — Present',
     highlights: [
-      'Leading the engineering team to build technology for environmental and sustainability initiatives.',
+      'Leading 2 teams with different product and project needs.',
+      'Promote a strong learning environment for engineering teams through sharing sessions and close mentoring.',
+      'Improve reliability by teaching critical thinking, requiring code reviews, and reviewing company-wide architectures.',
+      'Migrating products from Kotlin Spring Boot to Go to improve performance, cost, and build size.',
+    ],
+  },
+  {
+    role: 'IT Software Engineer (Lead)',
+    company: 'PT. TEMAS Tbk',
+    location: 'Jakarta, Indonesia',
+    period: 'May 2025 — Jan 2026',
+    highlights: [
+      'Led 3 cross-functional teams to deliver high-quality software products on schedule.',
+      'Promoted clean architecture and SOLID principles through mentoring and peer code reviews.',
+      'Fostered critical thinking within the team by encouraging open discussions and collaborative problem solving.',
+    ],
+  },
+  {
+    role: 'IT Development Staff',
+    company: 'PT. TEMAS Tbk',
+    location: 'Jakarta, Indonesia',
+    period: 'Apr 2024 — May 2025',
+    highlights: [
+      'Led a SCRUM team using JIRA for task management and sprint planning.',
+      'Introduced unit testing practices for Go and Vue.js projects.',
+      'Trained team members on Go and Vue.js standards and practices.',
     ],
   },
   {
     role: 'Tech Lead Engineer',
     company: 'PT. Data Integrasi Semesta',
-    period: '02/2020 — Present',
+    location: 'Jakarta, Indonesia',
+    period: 'Feb 2020 — Apr 2024',
     highlights: [
-      'Developed a point of sales application for vending machines that is reliable and robust in isolated areas.',
-      'Developed a point of sales mobile application for a packaging company, allowing users to customize their package dimensions and size.',
-      "Developed a distribution manager application that helps employers track distribution of their goods and helps employees keep track of their responsibilities.",
-      'Developed a fire monitoring system that integrates traditional fire alarm systems into a centralized and sophisticated cloud dashboard.',
-      'Developed a utilities billing system for buildings to ease the process of billing occupants for their utilities.',
-      'Developed a centralized backup and indexing system for banks’ call recordings, allowing users to manage recordings from multiple bank branches.',
-      'Developed an operation management application for building management employees to maintain and inspect building accessories.',
-      'Managed multiple projects — estimating cost and timeline, collaborating with outsource developers, and introducing CI/CD pipelines to streamline development.',
+      'Delivered custom software for logistics, banking, and hospitality clients.',
+      'Managed project timelines, cost estimates, and coordination with outsourced developers.',
+      'Established core DevOps practices such as CI/CD, Agile, and testing.',
     ],
   },
   {
     role: 'Frontend Developer',
     company: 'Airpaz.com',
-    period: '03/2019 — 02/2020',
+    location: 'Jakarta, Indonesia',
+    period: 'Mar 2019 — Feb 2020',
     highlights: [
-      'Migrated legacy email systems into a NodeJS system that lets users upload new email designs and uses queues to reliably send notification emails.',
-      'Migrated legacy web applications from a monolithic PHP codebase into NuxtJS for both desktop and mobile.',
+      'Modernized the legacy frontend by migrating from a monolithic Laravel app to Nuxt.js.',
     ],
   },
   {
     role: 'Intern Software Engineer',
     company: 'Samsung R&D Institute Indonesia',
-    period: '03/2018 — 03/2019',
+    location: 'Jakarta, Indonesia',
+    period: 'Mar 2018 — Mar 2019',
     highlights: [
-      "Developed a customer relationship management (CRM) mobile application that helps Samsung's sales team track their projects.",
-      "Developed a parental control application to help parents manage their children's mobile phone usage.",
-      "Created reporting pages for an existing application using Samsung's proprietary software.",
+      "Developed CRM and parental control mobile apps to support Samsung's sales and family-focused initiatives.",
     ],
   },
   {
     role: 'Teaching Assistant',
-    company: 'SLC, Binus University',
-    period: '02/2016 — 02/2018',
+    company: 'BINUS University',
+    location: 'Jakarta, Indonesia',
+    period: 'Feb 2016 — Feb 2018',
     highlights: [
-      'Taught various subjects to students, sometimes in English — including Object Oriented Programming, Relational Database Concept and Language, Web Design and Programming, and Computer Vision.',
+      'Taught computer science courses and supported student learning through tutoring and lab assistance.',
     ],
   },
 ]
 
-export const projects: ProjectItem[] = [
+export const achievements: AchievementItem[] = [
   {
-    name: 'Dakota Cinema Ticketing',
-    description:
-      'A cinema ticketing system where users can buy tickets and snacks online.',
-    url: 'https://dakotacinema.id/',
+    name: '1st Winner — LINE Dev Challenge Indonesia',
+    description: 'Student Category.',
   },
   {
-    name: 'Paint Store CRM',
-    description:
-      'A customer relationship management web application built for a paint store.',
-  },
-  {
-    name: 'Website CMS',
-    description:
-      'A content management system that makes setting up a website quick and easy.',
-  },
-  {
-    name: 'Cafe Point of Sales',
-    description: 'A point of sales application tailored for cafes.',
+    name: 'Best Research Interest Group',
+    description: 'SLC Teaching Assistant.',
   },
 ]
 
@@ -182,10 +180,11 @@ export const education: EducationItem[] = [
     degree: 'Bachelor of Computer Science',
     school: 'Binus University',
     period: '2015 — 2018',
+    gpa: '3.69',
   },
 ]
 
 export const languages: Language[] = [
-  { name: 'English', level: 'Fluent' },
+  { name: 'English', level: 'Proficient' },
   { name: 'Indonesian', level: 'Native' },
 ]

@@ -11,6 +11,7 @@ import { education } from '../data/resume'
           <div class="edu__main">
             <h3 class="edu__degree">{{ item.degree }}</h3>
             <p class="edu__school">{{ item.school }}</p>
+            <p v-if="item.gpa" class="edu__gpa">GPA: {{ item.gpa }}</p>
           </div>
           <span class="edu__period">{{ item.period }}</span>
         </div>
@@ -45,6 +46,12 @@ import { education } from '../data/resume'
 
 .edu__school {
   color: var(--accent-light);
+}
+
+.edu__gpa {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 2px;
 }
 
 .edu__period {
