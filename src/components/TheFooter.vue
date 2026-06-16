@@ -18,7 +18,6 @@ const year = new Date().getFullYear()
       <div class="footer__links">
         <a :href="profile.links.github" target="_blank" rel="noopener">GitHub</a>
         <a :href="profile.links.linkedin" target="_blank" rel="noopener">LinkedIn</a>
-        <a :href="`tel:${profile.phone.replace(/\s/g, '')}`">{{ profile.phone }}</a>
       </div>
 
       <p class="footer__copy">

@@ -32,7 +32,6 @@ export const profile: Profile = {
     'Passionate and disciplined Software Engineer with 6+ years of experience building robust solutions across web, mobile, desktop, and IoT. Skilled in Go, Vue.js, Flutter, and DevOps practices — a fast learner and proactive team contributor.',
   location: 'Indonesia',
   email: 'ericmarcelinotju@gmail.com',
-  phone: '+62 813 8273 4943',
   links: {
     github: 'https://github.com/ericmarcelinotju',
     linkedin: 'https://www.linkedin.com/in/eric-marcelino-750379204',
@@ -144,6 +143,7 @@ export const experience: ExperienceItem[] = [
   {
     role: 'Intern Software Engineer',
     company: 'Samsung R&D Institute Indonesia',
+    alias: 'SRIN',
     location: 'Jakarta, Indonesia',
     period: 'Mar 2018 — Mar 2019',
     summary:
@@ -170,21 +170,24 @@ export const projects: ProjectItem[] = [
     name: 'Dakota Cinema Ticketing',
     description:
       'A cinema ticketing system where users can buy tickets and snacks online.',
-    url: 'https://dakotacinema.id/',
+    tech: ['Nest.js', 'TypeScript', 'Vue.js'],
   },
   {
     name: 'Paint Store CRM',
     description:
       'A customer relationship management web application built for a paint store.',
+    tech: ['Nest.js', 'TypeScript', 'Vue.js'],
   },
   {
     name: 'Website CMS',
     description:
       'A content management system that makes setting up a website quick and easy.',
+    tech: ['Laravel'],
   },
   {
     name: 'Cafe Point of Sales',
     description: 'A point of sales application tailored for cafes.',
+    tech: ['Laravel', 'React Native'],
   },
 ]
 

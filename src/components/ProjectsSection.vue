@@ -25,6 +25,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0')
             <span v-if="project.url" class="project__link" aria-hidden="true">↗</span>
           </h3>
           <p class="project__desc">{{ project.description }}</p>
+          <ul v-if="project.tech" class="project__tech">
+            <li v-for="t in project.tech" :key="t">{{ t }}</li>
+          </ul>
         </component>
       </div>
     </div>
@@ -84,5 +87,22 @@ const pad = (n: number) => String(n + 1).padStart(2, '0')
 .project__desc {
   color: var(--text-muted);
   font-size: 0.96rem;
+}
+
+.project__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  list-style: none;
+  margin-top: 16px;
+}
+
+.project__tech li {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  padding: 3px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
 }
 </style>
