@@ -14,7 +14,11 @@ import CompanyLogo from './CompanyLogo.vue'
           class="timeline__item"
         >
           <span class="timeline__period">{{ job.period }}</span>
-          <div class="timeline__card">
+          <router-link
+            class="timeline__card"
+            :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
+            :aria-label="`${job.role} at ${job.company}, view details`"
+          >
             <h3 class="timeline__role">{{ job.role }}</h3>
             <p class="timeline__company">
               <CompanyLogo
@@ -22,22 +26,12 @@ import CompanyLogo from './CompanyLogo.vue'
                 :logo="companyLogo(companySlug(job.company))"
                 :size="36"
               />
-              <router-link
-                class="timeline__companylink"
-                :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
-              >
-                {{ job.company }}
-              </router-link>
+              <span class="timeline__companyname">{{ job.company }}</span>
               <span v-if="job.location" class="timeline__location"> · {{ job.location }}</span>
             </p>
             <p class="timeline__summary">{{ job.summary }}</p>
-            <router-link
-              class="timeline__details"
-              :to="{ name: 'company', params: { slug: companySlug(job.company) } }"
-            >
-              View details →
-            </router-link>
-          </div>
+            <span class="timeline__details">View details →</span>
+          </router-link>
         </li>
       </ol>
     </div>
@@ -125,16 +119,24 @@ import CompanyLogo from './CompanyLogo.vue'
 }
 
 .timeline__card {
+  display: block;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 22px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .timeline__card:hover {
+  color: var(--text);
   border-color: var(--accent);
   box-shadow: var(--shadow-lift);
+}
+
+.timeline__card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .timeline__role {
@@ -181,13 +183,9 @@ import CompanyLogo from './CompanyLogo.vue'
   font-weight: 400;
 }
 
-.timeline__companylink {
+.timeline__companyname {
   color: var(--accent-light);
   font-weight: 500;
-}
-
-.timeline__companylink:hover {
-  color: var(--text);
 }
 
 .timeline__summary {
@@ -201,10 +199,12 @@ import CompanyLogo from './CompanyLogo.vue'
   font-size: 0.86rem;
   font-weight: 600;
   color: var(--accent);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.timeline__details:hover {
+.timeline__card:hover .timeline__details {
   color: var(--accent-light);
+  transform: translateX(3px);
 }
 
 /* Collapse to a single left-aligned column on narrow viewports. */
