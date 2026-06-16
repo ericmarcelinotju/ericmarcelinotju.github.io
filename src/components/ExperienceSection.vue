@@ -48,7 +48,7 @@ import { experience } from '../data/resume'
   height: 14px;
   border-radius: 50%;
   background: var(--accent-light);
-  box-shadow: 0 0 0 4px rgba(79, 127, 214, 0.18);
+  box-shadow: 0 0 0 4px var(--accent-ring);
 }
 
 .timeline__head {

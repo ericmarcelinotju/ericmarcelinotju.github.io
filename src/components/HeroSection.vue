@@ -49,14 +49,10 @@ import { profile, languages } from '../data/resume'
   overflow: hidden;
   background: radial-gradient(
       1200px 600px at 80% -10%,
-      rgba(79, 127, 214, 0.25),
+      var(--hero-glow-1),
       transparent 60%
     ),
-    radial-gradient(
-      900px 500px at -10% 10%,
-      rgba(42, 82, 152, 0.3),
-      transparent 55%
-    );
+    radial-gradient(900px 500px at -10% 10%, var(--hero-glow-2), transparent 55%);
 }
 
 .hero__inner {
@@ -120,7 +116,7 @@ import { profile, languages } from '../data/resume'
 .btn--ghost {
   border-color: var(--border);
   color: var(--text);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface);
 }
 
 .btn--ghost:hover {
