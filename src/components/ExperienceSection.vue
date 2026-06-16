@@ -12,7 +12,9 @@ import { experience } from '../data/resume'
             <h3 class="timeline__role">{{ job.role }}</h3>
             <span class="timeline__period">{{ job.period }}</span>
           </div>
-          <p class="timeline__company">{{ job.company }}</p>
+          <p class="timeline__company">
+            {{ job.company }}<span v-if="job.location" class="timeline__location"> · {{ job.location }}</span>
+          </p>
           <ul class="timeline__highlights">
             <li v-for="(point, i) in job.highlights" :key="i">{{ point }}</li>
           </ul>
@@ -74,6 +76,11 @@ import { experience } from '../data/resume'
   color: var(--accent-light);
   font-weight: 500;
   margin-bottom: 12px;
+}
+
+.timeline__location {
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .timeline__highlights {
