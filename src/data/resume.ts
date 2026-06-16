@@ -80,10 +80,11 @@ export const experience: ExperienceItem[] = [
     summary:
       'Leads two product teams, growing engineering capability through mentoring and code reviews while migrating services from Kotlin Spring Boot to Go.',
     highlights: [
-      'Leading 2 teams with different product and project needs.',
-      'Promote a strong learning environment for engineering teams through sharing sessions and close mentoring.',
-      'Improve reliability by teaching critical thinking, requiring code reviews, and reviewing company-wide architectures.',
-      'Migrating products from Kotlin Spring Boot to Go to improve performance, cost, and build size.',
+      `Lead two engineering teams totaling ~5 engineers, each serving products with distinct technical and business needs.`,
+      `Cultivate a strong engineering-learning culture through regular knowledge-sharing sessions and close one-on-one mentoring.`,
+      `Improve system reliability by instilling critical thinking, enforcing mandatory code reviews, and reviewing company-wide architecture.`,
+      `Lead migration of the core product from Kotlin+Spring Boot to Go to improve runtime performance, infrastructure cost, and build size.`,
+      `Ensure projects success by complying to clients' security standards and satisfy client's needs.`,
     ],
   },
   {
@@ -95,9 +96,11 @@ export const experience: ExperienceItem[] = [
     summary:
       'Led three cross-functional teams to ship on schedule, championing clean architecture and SOLID through mentoring and peer review.',
     highlights: [
-      'Led 3 cross-functional teams to deliver high-quality software products on schedule.',
+     'Led 12 engineers across 3 cross-functional teams, consistently delivering high-quality products on schedule.',
+      'Architected real-time systems sustaining sub-200ms latency while handling ~100,000 concurrent real-time transactions.',
+      'Drove engineering quality to over 80% code coverage across 6 repositories, including shared internal libraries.',
       'Promoted clean architecture and SOLID principles through mentoring and peer code reviews.',
-      'Fostered critical thinking within the team by encouraging open discussions and collaborative problem solving.',
+      'Fostered critical thinking through open technical discussions and collaborative problem-solving.',
     ],
   },
   {
@@ -109,9 +112,11 @@ export const experience: ExperienceItem[] = [
     summary:
       'Ran a SCRUM team and raised code quality by introducing unit testing and Go and Vue.js standards across projects.',
     highlights: [
-      'Led a SCRUM team using JIRA for task management and sprint planning.',
-      'Introduced unit testing practices for Go and Vue.js projects.',
-      'Trained team members on Go and Vue.js standards and practices.',
+      'Led a 3-person SCRUM team, managing tasks and sprint planning in JIRA.',
+      'Shipped an end-to-end port-operations product spanning mobile, backend, and frontend while preserving connectivity with existing legacy systems.',
+      'Introduced unit-testing practices for Go and Vue.js, reaching over 60% code coverage across 3 repositories.',
+      'Trained team members on Go and Vue.js standards and best practices which 90% of them can contribute to the new system after a month.',
+      'Developed an SSO that is used by all dozens of systems and handles ~1000 employees.',
     ],
   },
   {
@@ -123,9 +128,9 @@ export const experience: ExperienceItem[] = [
     summary:
       'Delivered custom software for logistics, banking, and hospitality clients, owning delivery end to end and establishing the core DevOps practices.',
     highlights: [
-      'Delivered custom software for logistics, banking, and hospitality clients.',
-      'Managed project timelines, cost estimates, and coordination with outsourced developers.',
-      'Established core DevOps practices such as CI/CD, Agile, and testing.',
+      'Led 6 engineers across multiple concurrent projects for logistics, banking, and hospitality clients.',
+      'Delivered dozens of custom software projects, managing timelines, cost estimates, and coordination with outsourced developers.',
+      'Established core DevOps practices (CI/CD, Agile, automated testing), increasing deployment frequency to development up to 12 times per day.',
     ],
   },
   {
@@ -137,7 +142,8 @@ export const experience: ExperienceItem[] = [
     summary:
       'Modernized the booking frontend, migrating it from a monolithic Laravel app to Nuxt.js.',
     highlights: [
-      'Modernized the legacy frontend by migrating from a monolithic Laravel app to Nuxt.js.',
+      'Modernized legacy frontend by migrating from monolithic Laravel to Nuxt.js.',
+      'Reduced initial page load to under ~1.5s and enabled near-instant (under 100ms) in-app navigation through server-side rendering and client-side routing.',
     ],
   },
   {
@@ -149,7 +155,8 @@ export const experience: ExperienceItem[] = [
     summary:
       "Built CRM and parental-control mobile apps supporting Samsung's sales and family-focused initiatives.",
     highlights: [
-      "Developed CRM and parental control mobile apps to support Samsung's sales and family-focused initiatives.",
+      "Developed parental control mobile apps which can detect how far the face is from the screen.",
+      "Developed CRM mobile app for Samsung's sales team, enabling them to manage leads and track sales performance on the go.",
     ],
   },
   {
@@ -160,7 +167,8 @@ export const experience: ExperienceItem[] = [
     summary:
       'Taught computer science courses and supported students through tutoring and lab assistance.',
     highlights: [
-      'Taught computer science courses and supported student learning through tutoring and lab assistance.',
+      'Taught computer-science courses to hundreds of students over two years through tutoring and lab assistance.',
+      'Authored dozens of assignments and lab exercises to support student learning.',
     ],
   },
 ]
