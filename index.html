@@ -10,8 +10,18 @@
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232a5298'/><text x='50' y='50' text-anchor='middle' dominant-baseline='central' font-family='Arial, sans-serif' font-size='60' font-weight='bold' fill='%23ecf0f1'>E</text></svg>"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232f8fb3'/><text x='50' y='50' text-anchor='middle' dominant-baseline='central' font-family='Arial, sans-serif' font-size='60' font-weight='bold' fill='%23f5fafc'>E</text></svg>"
     />
+    <script>
+      // Apply a saved theme before first paint to avoid a flash of the
+      // wrong theme. With no saved choice, the OS preference is used.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme')
+          if (t) document.documentElement.setAttribute('data-theme', t)
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>
