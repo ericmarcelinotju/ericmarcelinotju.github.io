@@ -64,7 +64,8 @@ import { skillGroups } from '../data/resume'
 }
 
 .skills__chip:hover {
-  border-color: var(--accent);
+  border-color: var(--highlight);
+  background: var(--highlight-tint);
   color: var(--accent);
 }
 

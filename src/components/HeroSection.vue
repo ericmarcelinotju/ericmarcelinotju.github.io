@@ -153,7 +153,8 @@ const portrait = Object.values(portraitFiles)[0]
       var(--hero-glow-1),
       transparent 60%
     ),
-    radial-gradient(820px 460px at -10% 0%, var(--hero-glow-2), transparent 55%);
+    radial-gradient(820px 460px at -10% 0%, var(--hero-glow-2), transparent 55%),
+    radial-gradient(720px 520px at 20% 115%, var(--hero-glow-3), transparent 60%);
 }
 
 /* Cursor-following glow. A fixed-size circle moved with transform (GPU), so

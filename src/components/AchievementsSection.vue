@@ -39,7 +39,7 @@ import { achievements } from '../data/resume'
   bottom: 4px;
   width: 3px;
   border-radius: 3px;
-  background: var(--accent);
+  background: linear-gradient(180deg, var(--accent), var(--highlight));
 }
 
 .achievement__name {

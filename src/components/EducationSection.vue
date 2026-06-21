@@ -49,9 +49,15 @@ import { education } from '../data/resume'
 }
 
 .edu__gpa {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-top: 2px;
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--highlight);
+  color: var(--twilight-indigo);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .edu__period {

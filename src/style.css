@@ -1,14 +1,35 @@
 :root {
   color-scheme: light dark;
 
-  /* Soft sea-blue accent — shared across themes */
-  --accent: #2f8fb3;
-  --accent-light: #5bb3d6;
-  --accent-strong: #237a9e;
-  --accent-ring: rgba(47, 143, 179, 0.18);
-  --hero-glow-1: rgba(91, 179, 214, 0.16);
-  --hero-glow-2: rgba(47, 143, 179, 0.12);
-  --hero-spot: rgba(47, 143, 179, 0.2);
+  /* Brand palette ----------------------------------------------------------
+     frosted-mint  #d3f6db   frosted-blue   #92d5e6   light-green #a1ef8b
+     sapphire-sky  #276fbf   twilight-indigo #183059                       */
+  --frosted-mint: #d3f6db;
+  --frosted-blue: #92d5e6;
+  --light-green: #a1ef8b;
+  --sapphire-sky: #276fbf;
+  --twilight-indigo: #183059;
+
+  /* Semantic roles (light theme): sapphire primary, frosted-blue secondary */
+  --primary: var(--sapphire-sky);
+  --secondary: var(--frosted-blue);
+
+  /* Supporting accents — light-green for "fresh"/metric highlights, frosted-mint
+     for the softest surface tints. Used sparingly so the blue stays dominant. */
+  --highlight: var(--light-green);
+  --highlight-tint: rgba(161, 239, 139, 0.16);
+  --mint: var(--frosted-mint);
+  --hero-glow-3: rgba(161, 239, 139, 0.12);
+
+  /* Accent family is derived from the semantic roles so every component
+     tracks the brand palette without per-component edits. */
+  --accent: var(--primary);
+  --accent-light: #5b9fd6;
+  --accent-strong: #1f5a9c;
+  --accent-ring: rgba(39, 111, 191, 0.18);
+  --hero-glow-1: rgba(146, 213, 230, 0.18);
+  --hero-glow-2: rgba(39, 111, 191, 0.12);
+  --hero-spot: rgba(39, 111, 191, 0.2);
 
   /* Light theme (default) */
   --bg: #f5fafc;
@@ -37,6 +58,18 @@
    (unless they've explicitly chosen light) or when toggled on. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
+    /* Dark roles: twilight-indigo primary, sapphire-sky secondary.
+       Twilight is too dark for text/links, so the visible accent rides
+       on the secondary (sapphire) for legibility on dark surfaces. */
+    --primary: var(--twilight-indigo);
+    --secondary: var(--sapphire-sky);
+    --accent: var(--secondary);
+    --accent-light: #5b9fd6;
+    --accent-strong: #1f5a9c;
+    --accent-ring: rgba(39, 111, 191, 0.24);
+    --highlight-tint: rgba(161, 239, 139, 0.14);
+    --hero-glow-3: rgba(161, 239, 139, 0.1);
+
     --bg: #0e1b24;
     --bg-alt: #122430;
     --surface: #162936;
@@ -48,14 +81,23 @@
     --border-strong: rgba(148, 180, 200, 0.26);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     --shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.42);
-    --ghost-mark: rgba(91, 179, 214, 0.06);
-    --hero-glow-1: rgba(91, 179, 214, 0.14);
-    --hero-glow-2: rgba(47, 143, 179, 0.1);
-    --hero-spot: rgba(91, 179, 214, 0.16);
+    --ghost-mark: rgba(146, 213, 230, 0.06);
+    --hero-glow-1: rgba(39, 111, 191, 0.16);
+    --hero-glow-2: rgba(24, 48, 89, 0.2);
+    --hero-spot: rgba(39, 111, 191, 0.18);
   }
 }
 
 [data-theme='dark'] {
+  --primary: var(--twilight-indigo);
+  --secondary: var(--sapphire-sky);
+  --accent: var(--secondary);
+  --accent-light: #5b9fd6;
+  --accent-strong: #1f5a9c;
+  --accent-ring: rgba(39, 111, 191, 0.24);
+  --highlight-tint: rgba(161, 239, 139, 0.14);
+  --hero-glow-3: rgba(161, 239, 139, 0.1);
+
   --bg: #0e1b24;
   --bg-alt: #122430;
   --surface: #162936;
@@ -67,9 +109,10 @@
   --border-strong: rgba(148, 180, 200, 0.26);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   --shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.42);
-  --ghost-mark: rgba(91, 179, 214, 0.06);
-  --hero-glow-1: rgba(91, 179, 214, 0.14);
-  --hero-glow-2: rgba(47, 143, 179, 0.1);
+  --ghost-mark: rgba(146, 213, 230, 0.06);
+  --hero-glow-1: rgba(39, 111, 191, 0.16);
+  --hero-glow-2: rgba(24, 48, 89, 0.2);
+  --hero-spot: rgba(39, 111, 191, 0.18);
 }
 
 * {
