@@ -8,6 +8,7 @@ import type {
   EducationItem,
   ExperienceItem,
   Language,
+  Project,
   ProjectItem,
   Profile,
   SkillGroup,
@@ -20,6 +21,7 @@ export type {
   EducationItem,
   ExperienceItem,
   Language,
+  Project,
   ProjectItem,
   Profile,
   SkillGroup,
@@ -179,23 +181,63 @@ export const projects: ProjectItem[] = [
     description:
       'A cinema ticketing system where users can buy tickets and snacks online.',
     tech: ['Nest.js', 'TypeScript', 'Vue.js'],
+    role: 'Full-stack Developer',
+    period: '2022',
+    summary:
+      'An online platform for a cinema chain that lets moviegoers browse showtimes, pick their seats from an interactive map, and pre-order snacks — all in a single checkout. The same system gives staff the tools to schedule films, manage studios, and track sales.',
+    highlights: [
+      'Interactive seat-selection map backed by real-time availability so two people can never book the same seat.',
+      'Unified cart that combines tickets and concession orders into one payment step.',
+      'Admin dashboard for scheduling films, configuring studios and seat layouts, and monitoring daily revenue.',
+      'Nest.js REST API paired with a Vue.js single-page frontend for a fast, app-like booking flow.',
+    ],
   },
   {
     name: 'Paint Store CRM',
     description:
       'A customer relationship management web application built for a paint store.',
     tech: ['Nest.js', 'TypeScript', 'Vue.js'],
+    role: 'Full-stack Developer',
+    period: '2022',
+    summary:
+      'A customer-relationship tool tailored to a paint retailer, helping the sales team track customers, turn color and product selections into quotes, and follow orders from enquiry to delivery.',
+    highlights: [
+      'Customer profiles with full purchase history and follow-up reminders for the sales team.',
+      'Quotation builder that converts a color and product selection into a shareable, printable quote.',
+      'Role-based access separating day-to-day sales staff from store managers.',
+      'Reporting dashboard surfacing the sales pipeline and best-selling products.',
+    ],
   },
   {
     name: 'Website CMS',
     description:
       'A content management system that makes setting up a website quick and easy.',
     tech: ['Laravel'],
+    role: 'Backend Developer',
+    period: '2021',
+    summary:
+      'A lightweight content management system that lets non-technical users assemble and publish a website from reusable content blocks, without ever touching code.',
+    highlights: [
+      'Block-based page editor for composing pages, menus, and media from reusable pieces.',
+      'Multi-site management from a single admin panel.',
+      'SEO-friendly, server-rendered output via Laravel Blade templates.',
+      'Built-in media library for uploading and organizing images.',
+    ],
   },
   {
     name: 'Cafe Point of Sales',
     description: 'A point of sales application tailored for cafes.',
     tech: ['Laravel', 'React Native'],
+    role: 'Full-stack Developer',
+    period: '2021',
+    summary:
+      'A point-of-sale system designed for cafes, pairing a React Native tablet app for taking orders with a Laravel backend that handles the menu, inventory, and sales reporting.',
+    highlights: [
+      'Tablet ordering app with a categorized menu and quick item modifiers for fast service.',
+      'Orders routed to the kitchen in real time with receipt printing at checkout.',
+      'Inventory automatically deducted on each sale, with low-stock alerts for owners.',
+      'Daily sales and best-seller reports to help owners understand their business.',
+    ],
   },
 ]
 
@@ -351,4 +393,74 @@ const websiteBySlug: Record<string, string> = Object.fromEntries(
 /** Official website URL for a company slug, or undefined if none is set. */
 export function companyWebsite(slug: string): string | undefined {
   return websiteBySlug[slug]
+}
+
+// --- Project detail pages -------------------------------------------------
+
+/** Turn a project name into a URL-friendly slug, e.g. "Paint Store CRM" -> "paint-store-crm". */
+export function projectSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+/** Projects with a resolved slug, preserving the source order. */
+export const projectList: Project[] = projects.map((p) => ({
+  ...p,
+  slug: projectSlug(p.name),
+}))
+
+export function findProject(slug: string): Project | undefined {
+  return projectList.find((p) => p.slug === slug)
+}
+
+// Optional project screenshots live in `src/assets/projects/`. Use `<slug>.<ext>`
+// for a single image, or `<slug>-1.<ext>`, `<slug>-2.<ext>`, … for a carousel of
+// several (e.g. `paint-store-crm-1.png`, `paint-store-crm-2.png`). Drop files
+// named after the project's slug and the detail-page carousel shows them
+// automatically — no code change needed. When the same slot exists in multiple
+// formats, the order of preference is png > webp > jpeg > jpg. Numbered files
+// are shown in ascending order; an unnumbered `<slug>.<ext>` sorts first.
+const screenshotFiles = import.meta.glob(
+  '../assets/projects/*.{png,jpg,jpeg,webp}',
+  { eager: true, import: 'default' },
+) as Record<string, string>
+
+const screenshotExtPriority: Record<string, number> = {
+  png: 0,
+  webp: 1,
+  jpeg: 2,
+  jpg: 3,
+}
+
+// slug -> { order -> url }, keeping the best-format file for each slot.
+const screenshotsBySlug: Record<string, Record<number, string>> = {}
+{
+  const bestScore: Record<string, number> = {} // `${slug}#${order}` -> ext score
+  for (const [filePath, url] of Object.entries(screenshotFiles)) {
+    const fileName = filePath.split('/').pop() ?? ''
+    const ext = fileName.split('.').pop()?.toLowerCase() ?? ''
+    const base = fileName.replace(/\.[^.]+$/, '')
+    // Split a trailing "-<number>" (the carousel order) off the slug.
+    const match = base.match(/^(.*?)(?:-(\d+))?$/)
+    const slug = match?.[1] ?? base
+    const order = match?.[2] ? Number(match[2]) : 0
+    const score = screenshotExtPriority[ext] ?? 99
+    const key = `${slug}#${order}`
+    if (bestScore[key] === undefined || score < bestScore[key]) {
+      bestScore[key] = score
+      ;(screenshotsBySlug[slug] ??= {})[order] = url
+    }
+  }
+}
+
+/** Resolved screenshot URLs for a project slug, in display order (empty if none yet). */
+export function projectScreenshots(slug: string): string[] {
+  const byOrder = screenshotsBySlug[slug]
+  if (!byOrder) return []
+  return Object.keys(byOrder)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map((order) => byOrder[order])
 }
