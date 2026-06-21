@@ -1,13 +1,33 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { companyLogo, companyWebsite, findCompany, profile } from '../data/resume'
+import {
+  companies,
+  companyLogo,
+  companyWebsite,
+  findCompany,
+  profile,
+} from '../data/resume'
 import CompanyLogo from '../components/CompanyLogo.vue'
+import DetailPager from '../components/DetailPager.vue'
 
 const route = useRoute()
 const company = computed(() => findCompany(String(route.params.slug)))
 const website = computed(() =>
   company.value ? companyWebsite(company.value.slug) : undefined,
+)
+
+// Adjacent companies for the prev/next pager (no wrap-around at the ends).
+const index = computed(() =>
+  companies.findIndex((c) => c.slug === company.value?.slug),
+)
+const prev = computed(() =>
+  index.value > 0 ? companies[index.value - 1] : undefined,
+)
+const next = computed(() =>
+  index.value >= 0 && index.value < companies.length - 1
+    ? companies[index.value + 1]
+    : undefined,
 )
 
 watchEffect(() => {
@@ -60,6 +80,12 @@ watchEffect(() => {
           <li v-for="(point, j) in role.highlights" :key="j">{{ point }}</li>
         </ul>
       </section>
+
+      <DetailPager
+        label="experience"
+        :prev="prev && { name: prev.alias ?? prev.name, to: { name: 'company', params: { slug: prev.slug } } }"
+        :next="next && { name: next.alias ?? next.name, to: { name: 'company', params: { slug: next.slug } } }"
+      />
     </template>
 
     <div v-else class="company__notfound">
