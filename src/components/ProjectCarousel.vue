@@ -22,6 +22,31 @@ function go(i: number) {
 const next = () => go(index.value + 1)
 const prev = () => go(index.value - 1)
 
+// --- Adaptive frame ratio ---------------------------------------------------
+// The frame follows the screenshots themselves rather than a fixed 16:9: each
+// image reports its natural ratio on load, and the frame takes the median
+// (robust to a single odd-shaped shot), clamped to a sane band. The blurred
+// backdrop covers whatever a slide doesn't fill, so mixed ratios still look
+// tidy. Falls back to 16:9 before anything loads and for placeholder slides.
+const DEFAULT_AR = 16 / 9
+const ratios = ref<Record<number, number>>({})
+function onImgLoad(e: Event, i: number) {
+  const img = e.target as HTMLImageElement
+  if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+    ratios.value = { ...ratios.value, [i]: img.naturalWidth / img.naturalHeight }
+  }
+}
+const frameAr = computed(() => {
+  const vals = Object.values(ratios.value)
+  if (!vals.length) return DEFAULT_AR
+  const sorted = [...vals].sort((a, b) => a - b)
+  const mid = Math.floor(sorted.length / 2)
+  const median =
+    sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
+  // Keep portrait sets from getting absurdly tall and ultrawide ones too short.
+  return Math.min(Math.max(median, 0.6), 2.2)
+})
+
 // --- Autoplay ---------------------------------------------------------------
 // Advances every few seconds, paused while the pointer/focus is inside, and
 // disabled entirely under reduced-motion or with a single slide.
@@ -50,6 +75,7 @@ onBeforeUnmount(stop)
 <template>
   <div
     class="carousel"
+    :style="{ '--frame-ar': frameAr }"
     @mouseenter="paused = true"
     @mouseleave="paused = false"
     @focusin="paused = true"
@@ -62,11 +88,19 @@ onBeforeUnmount(stop)
       >
         <template v-if="hasImages">
           <div v-for="(src, i) in images" :key="i" class="carousel__slide">
+            <!-- Blurred copy of the image fills any letter/pillarbox space so
+                 portrait (mobile) and odd-ratio screenshots look intentional. -->
+            <div
+              class="carousel__bg"
+              :style="{ backgroundImage: `url(${src})` }"
+              aria-hidden="true"
+            ></div>
             <img
               class="carousel__img"
               :src="src"
               :alt="`${alt} screenshot ${i + 1}`"
               draggable="false"
+              @load="onImgLoad($event, i)"
             />
           </div>
         </template>
@@ -154,14 +188,42 @@ onBeforeUnmount(stop)
 }
 
 .carousel__slide {
+  position: relative;
   flex: 0 0 100%;
   min-width: 0;
+  /* Frame follows the screenshots (set per-carousel in JS), falling back to
+     16:9. Height is capped so portrait sets don't tower over the page. */
+  aspect-ratio: var(--frame-ar, 16 / 9);
+  max-height: min(78vh, 680px);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+/* Blurred, zoomed copy of the screenshot that fills the frame behind the
+   sharp image — turns the empty bars of a portrait/mobile shot into a
+   soft extension of the image instead of dead space. */
+.carousel__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  /* Heavily blurred, desaturated and dimmed so it reads as soft ambient
+     colour rather than a second, competing image. Larger scale hides the
+     blur bleed at the edges. */
+  filter: blur(64px) saturate(0.55) brightness(0.97);
+  transform: scale(1.4);
+  opacity: 0.5;
 }
 
 .carousel__img {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: 100%;
+  /* Fit the whole screenshot inside the frame (no cropping); the blurred
+     backdrop fills whatever space the image doesn't cover. */
+  object-fit: contain;
+  object-position: center;
   display: block;
   user-select: none;
 }
@@ -172,7 +234,7 @@ onBeforeUnmount(stop)
   align-items: center;
   justify-content: center;
   gap: 12px;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--frame-ar, 16 / 9);
   background: radial-gradient(
       120% 120% at 70% 10%,
       var(--hero-glow-1),

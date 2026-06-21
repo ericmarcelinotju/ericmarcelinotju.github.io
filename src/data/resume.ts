@@ -10,6 +10,7 @@ import type {
   Language,
   Project,
   ProjectItem,
+  ProjectLink,
   Profile,
   SkillGroup,
 } from './resume.types'
@@ -23,6 +24,7 @@ export type {
   Language,
   Project,
   ProjectItem,
+  ProjectLink,
   Profile,
   SkillGroup,
 }
@@ -177,12 +179,16 @@ export const experience: ExperienceItem[] = [
 
 export const projects: ProjectItem[] = [
   {
-    name: 'Dakota Cinema Ticketing',
+    name: 'Cinema Ticketing',
     description:
       'A cinema ticketing system where users can buy tickets and snacks online.',
-    tech: ['Nest.js', 'TypeScript', 'Vue.js'],
+    tech: ['Nest.js', 'TypeScript', 'Vue.js', 'Midtrans'],
     role: 'Full-stack Developer',
     period: '2022',
+    links: [
+      { label: 'Backend', url: 'https://github.com/ericmarcelinotju/backend-dakota' },
+      { label: 'Management Platform', url: 'https://github.com/ericmarcelinotju/dashboard-dakota' },
+    ],
     summary:
       'An online platform for a cinema chain that lets moviegoers browse showtimes, pick their seats from an interactive map, and pre-order snacks — all in a single checkout. The same system gives staff the tools to schedule films, manage studios, and track sales.',
     highlights: [
@@ -190,21 +196,47 @@ export const projects: ProjectItem[] = [
       'Unified cart that combines tickets and concession orders into one payment step.',
       'Admin dashboard for scheduling films, configuring studios and seat layouts, and monitoring daily revenue.',
       'Nest.js REST API paired with a Vue.js single-page frontend for a fast, app-like booking flow.',
+      'Dynamic DB initialization and access for each studio to ensure data isolation and performance.',
     ],
   },
   {
-    name: 'Paint Store CRM',
+    name: 'Gold Store POS',
     description:
-      'A customer relationship management web application built for a paint store.',
+      'A point-of-sale and back-office system for a gold & jewelry retailer, handling sales, buybacks, stock, and staff.',
+    tech: ['Go', 'Gin', 'Vue.js', 'TypeScript', 'Redis', 'Tailwind CSS'],
+    role: 'Full-stack Developer',
+    period: '2023',
+    links: [
+      { label: 'Backend', url: 'https://github.com/ericmarcelinotju/tepengbe' },
+      { label: 'Frontend', url: 'https://github.com/ericmarcelinotju/tepengfe' },
+    ],
+    summary:
+      'An end-to-end retail platform for a gold and jewelry store that lets cashiers ring up sales and customer buybacks priced by live weight and karat, while giving owners full control over inventory, pricing, and staff. Built as a Go REST API backed by a Vue.js single-page app, with thermal receipt printing for an in-store checkout flow.',
+    highlights: [
+      'Dual transaction flows for selling and buying back gold, with pricing calculated dynamically from item weight and daily gold rates.',
+      'Container & ledger system with point-in-time snapshots to track physical stock and keep an auditable inventory trail.',
+      'ESC/POS thermal receipt printing and QR generation for a complete physical-counter checkout experience.',
+      'Role-based access control with granular per-module permissions, so each staff member only sees what their role allows.',
+      'Reporting dashboards with revenue and sales charts, plus real-time updates over WebSocket and a Go/Gin API running on GORM across MySQL, PostgreSQL, and SQL Server.',
+    ],
+  },
+  {
+    name: 'Customer Relationship Management',
+    description:
+      'A customer relationship management web application for tracking customers, quotes, and orders.',
     tech: ['Nest.js', 'TypeScript', 'Vue.js'],
     role: 'Full-stack Developer',
     period: '2022',
+     links: [
+      { label: 'Backend', url: 'https://github.com/ericmarcelinotju/ditya' },
+      { label: 'Frontend', url: 'https://github.com/ericmarcelinotju/candar' },
+    ],
     summary:
-      'A customer-relationship tool tailored to a paint retailer, helping the sales team track customers, turn color and product selections into quotes, and follow orders from enquiry to delivery.',
+      'A customer-relationship tool that helps a sales team track customers, turn product selections into quotes, and follow orders from enquiry to delivery.',
     highlights: [
-      'Customer profiles with full purchase history and follow-up reminders for the sales team.',
-      'Quotation builder that converts a color and product selection into a shareable, printable quote.',
-      'Role-based access separating day-to-day sales staff from store managers.',
+      'JIRA-like drag-and-drop issue tracking for managing customer inquiries and follow-ups.',
+      'Built-in product catalog with detailed specifications and pricing.',
+      'Project budget and profit tracking to help the business understand which projects are most lucrative.',
       'Reporting dashboard surfacing the sales pipeline and best-selling products.',
     ],
   },
@@ -226,6 +258,7 @@ export const projects: ProjectItem[] = [
   },
   {
     name: 'Cafe Point of Sales',
+    url: 'https://kopiketjil.com',
     description: 'A point of sales application tailored for cafes.',
     tech: ['Laravel', 'React Native'],
     role: 'Full-stack Developer',
@@ -235,8 +268,7 @@ export const projects: ProjectItem[] = [
     highlights: [
       'Tablet ordering app with a categorized menu and quick item modifiers for fast service.',
       'Orders routed to the kitchen in real time with receipt printing at checkout.',
-      'Inventory automatically deducted on each sale, with low-stock alerts for owners.',
-      'Daily sales and best-seller reports to help owners understand their business.',
+      'Product with variants and inventory tracking to prevent stockouts and manage supplies.',
     ],
   },
 ]
@@ -397,7 +429,7 @@ export function companyWebsite(slug: string): string | undefined {
 
 // --- Project detail pages -------------------------------------------------
 
-/** Turn a project name into a URL-friendly slug, e.g. "Paint Store CRM" -> "paint-store-crm". */
+/** Turn a project name into a URL-friendly slug, e.g. "Website CMS" -> "website-cms". */
 export function projectSlug(name: string): string {
   return name
     .toLowerCase()
@@ -415,15 +447,14 @@ export function findProject(slug: string): Project | undefined {
   return projectList.find((p) => p.slug === slug)
 }
 
-// Optional project screenshots live in `src/assets/projects/`. Use `<slug>.<ext>`
-// for a single image, or `<slug>-1.<ext>`, `<slug>-2.<ext>`, … for a carousel of
-// several (e.g. `paint-store-crm-1.png`, `paint-store-crm-2.png`). Drop files
-// named after the project's slug and the detail-page carousel shows them
-// automatically — no code change needed. When the same slot exists in multiple
-// formats, the order of preference is png > webp > jpeg > jpg. Numbered files
-// are shown in ascending order; an unnumbered `<slug>.<ext>` sorts first.
+// Optional project screenshots live in a per-project folder named after the
+// project's slug: `src/assets/projects/<slug>/`. Drop any number of images in
+// that folder and the detail-page carousel shows them, sorted by filename — use
+// `1.png`, `2.png`, … (or any names that sort the way you want) to control the
+// order. When the same image exists in multiple formats, the order of
+// preference is png > webp > jpeg > jpg.
 const screenshotFiles = import.meta.glob(
-  '../assets/projects/*.{png,jpg,jpeg,webp}',
+  '../assets/projects/*/*.{png,jpg,jpeg,webp}',
   { eager: true, import: 'default' },
 ) as Record<string, string>
 
@@ -434,33 +465,34 @@ const screenshotExtPriority: Record<string, number> = {
   jpg: 3,
 }
 
-// slug -> { order -> url }, keeping the best-format file for each slot.
-const screenshotsBySlug: Record<string, Record<number, string>> = {}
+// slug (folder) -> list of { name, url }, keeping the best format per image
+// name, later sorted by filename for display order.
+const screenshotsBySlug: Record<string, { name: string; url: string }[]> = {}
 {
-  const bestScore: Record<string, number> = {} // `${slug}#${order}` -> ext score
+  const bestScore: Record<string, number> = {} // `${slug}/${base}` -> ext score
+  const collected: Record<string, Record<string, string>> = {}
   for (const [filePath, url] of Object.entries(screenshotFiles)) {
-    const fileName = filePath.split('/').pop() ?? ''
+    const parts = filePath.split('/')
+    const fileName = parts.pop() ?? ''
+    const slug = parts.pop() ?? '' // the folder name is the project slug
     const ext = fileName.split('.').pop()?.toLowerCase() ?? ''
     const base = fileName.replace(/\.[^.]+$/, '')
-    // Split a trailing "-<number>" (the carousel order) off the slug.
-    const match = base.match(/^(.*?)(?:-(\d+))?$/)
-    const slug = match?.[1] ?? base
-    const order = match?.[2] ? Number(match[2]) : 0
     const score = screenshotExtPriority[ext] ?? 99
-    const key = `${slug}#${order}`
+    const key = `${slug}/${base}`
     if (bestScore[key] === undefined || score < bestScore[key]) {
       bestScore[key] = score
-      ;(screenshotsBySlug[slug] ??= {})[order] = url
+      ;(collected[slug] ??= {})[base] = url
     }
+  }
+  for (const [slug, byName] of Object.entries(collected)) {
+    screenshotsBySlug[slug] = Object.entries(byName)
+      .map(([name, url]) => ({ name, url }))
+      // Natural sort so "2" comes before "10".
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
   }
 }
 
 /** Resolved screenshot URLs for a project slug, in display order (empty if none yet). */
 export function projectScreenshots(slug: string): string[] {
-  const byOrder = screenshotsBySlug[slug]
-  if (!byOrder) return []
-  return Object.keys(byOrder)
-    .map(Number)
-    .sort((a, b) => a - b)
-    .map((order) => byOrder[order])
+  return (screenshotsBySlug[slug] ?? []).map((s) => s.url)
 }

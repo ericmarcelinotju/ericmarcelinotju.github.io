@@ -34,6 +34,12 @@ export interface AchievementItem {
   description: string
 }
 
+/** A labelled external link for a project (e.g. a repo or live demo). */
+export interface ProjectLink {
+  label: string
+  url: string
+}
+
 export interface ProjectItem {
   name: string
   /** One-line description shown on the home page card. */
@@ -41,6 +47,8 @@ export interface ProjectItem {
   tech?: string[]
   /** Optional live/external link (e.g. a deployed demo or repo). */
   url?: string
+  /** Related links — repos, live demo, etc. — listed on the detail page. */
+  links?: ProjectLink[]
   /** Role played on the project, shown on the detail page. */
   role?: string
   /** When the project was built, shown on the detail page. */

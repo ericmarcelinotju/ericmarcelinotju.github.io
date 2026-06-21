@@ -1,13 +1,27 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { findProject, projectScreenshots, profile } from '../data/resume'
+import { findProject, projectList, projectScreenshots, profile } from '../data/resume'
 import ProjectCarousel from '../components/ProjectCarousel.vue'
+import DetailPager from '../components/DetailPager.vue'
 
 const route = useRoute()
 const project = computed(() => findProject(String(route.params.slug)))
 const screenshots = computed(() =>
   project.value ? projectScreenshots(project.value.slug) : [],
+)
+
+// Adjacent projects for the prev/next pager (no wrap-around at the ends).
+const index = computed(() =>
+  projectList.findIndex((p) => p.slug === project.value?.slug),
+)
+const prev = computed(() =>
+  index.value > 0 ? projectList[index.value - 1] : undefined,
+)
+const next = computed(() =>
+  index.value >= 0 && index.value < projectList.length - 1
+    ? projectList[index.value + 1]
+    : undefined,
 )
 
 watchEffect(() => {
@@ -34,16 +48,35 @@ watchEffect(() => {
         <ul v-if="project.tech" class="project__tech">
           <li v-for="t in project.tech" :key="t">{{ t }}</li>
         </ul>
-        <a
-          v-if="project.url"
-          class="project__link"
-          :href="project.url"
-          target="_blank"
-          rel="noopener"
+        <ul
+          v-if="project.url || project.links?.length"
+          class="project__links"
         >
-          Visit project
-          <span class="project__link-arrow" aria-hidden="true">↗</span>
-        </a>
+          <li v-if="project.url">
+            <a class="project__link" :href="project.url" target="_blank" rel="noopener">
+              Visit project
+              <span class="project__link-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li v-for="link in project.links" :key="link.url">
+            <a class="project__link" :href="link.url" target="_blank" rel="noopener">
+              <svg
+                class="project__link-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" />
+              </svg>
+              {{ link.label }}
+              <span class="project__link-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
       </header>
 
       <!-- Animated carousel of screenshots, or placeholder slides until images
@@ -65,6 +98,12 @@ watchEffect(() => {
           </ul>
         </template>
       </section>
+
+      <DetailPager
+        label="project"
+        :prev="prev && { name: prev.name, to: { name: 'project', params: { slug: prev.slug } } }"
+        :next="next && { name: next.name, to: { name: 'project', params: { slug: next.slug } } }"
+      />
     </template>
 
     <div v-else class="project__notfound">
@@ -134,11 +173,18 @@ watchEffect(() => {
   color: var(--text-muted);
 }
 
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  list-style: none;
+  margin-top: 18px;
+}
+
 .project__link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 18px;
+  gap: 7px;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--accent);
@@ -146,6 +192,11 @@ watchEffect(() => {
 
 .project__link:hover {
   color: var(--accent-light);
+}
+
+.project__link-icon {
+  width: 17px;
+  height: 17px;
 }
 
 .project__link-arrow {
@@ -164,7 +215,6 @@ watchEffect(() => {
 .project__summary {
   font-size: 1.08rem;
   color: var(--text);
-  max-width: 70ch;
 }
 
 .project__subtitle {
