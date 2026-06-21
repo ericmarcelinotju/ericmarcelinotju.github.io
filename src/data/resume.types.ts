@@ -36,9 +36,24 @@ export interface AchievementItem {
 
 export interface ProjectItem {
   name: string
+  /** One-line description shown on the home page card. */
   description: string
   tech?: string[]
+  /** Optional live/external link (e.g. a deployed demo or repo). */
   url?: string
+  /** Role played on the project, shown on the detail page. */
+  role?: string
+  /** When the project was built, shown on the detail page. */
+  period?: string
+  /** Longer overview paragraph for the detail page. */
+  summary?: string
+  /** Notable features / contributions listed on the detail page. */
+  highlights?: string[]
+}
+
+/** A project enriched with a URL slug, used by the detail pages. */
+export interface Project extends ProjectItem {
+  slug: string
 }
 
 export interface EducationItem {

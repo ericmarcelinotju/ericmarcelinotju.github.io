@@ -10,6 +10,11 @@ const router = createRouter({
       name: 'company',
       component: () => import('../views/CompanyView.vue'),
     },
+    {
+      path: '/project/:slug',
+      name: 'project',
+      component: () => import('../views/ProjectView.vue'),
+    },
     // Unknown paths fall back to the home page.
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
