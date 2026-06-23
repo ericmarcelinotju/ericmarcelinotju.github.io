@@ -33,7 +33,7 @@ export const profile: Profile = {
   name: 'Eric Marcelino',
   title: 'Tech Lead',
   tagline:
-    'Passionate and disciplined Software Engineer with 6+ years of experience building robust solutions across web, mobile, desktop, and IoT. Skilled in Go, Vue.js, Flutter, and DevOps practices — a fast learner and proactive team contributor.',
+    'Passionate and disciplined Software Engineer with 8+ years of experience building robust solutions across web, mobile, desktop, and IoT. Skilled in Go, Vue.js, Flutter, and DevOps practices — a fast learner and proactive team contributor.',
   location: 'Indonesia',
   email: 'ericmarcelinotju@gmail.com',
   links: {
